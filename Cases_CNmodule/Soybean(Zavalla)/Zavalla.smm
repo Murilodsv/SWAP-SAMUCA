@@ -1,0 +1,48 @@
+**********************************************************************************
+* Filename: Zavalla.smm
+* Contents: Soil Management Material Definitions                                                                   
+**********************************************************************************
+* Comment area:
+*
+* Case: Zavalla - soybean
+*
+**********************************************************************************
+* soil management material definitions
+MatNum ,   MatName                   , AppAge,OrgMatFrac, OrgNFrac,  NH4NFrac,NO3NFrac
+    1  ,  'Cattle manure'            ,  3.16  ,  0.150  ,  0.035  ,  0.0012  ,  0.0000
+    2  ,  'Pig manure'               ,  1.36  ,  0.161  ,  0.037  ,  0.0015  ,  0.0000
+    3  ,  'Poultry manure'           ,  1.36  ,  0.376  ,  0.058  ,  0.0024  ,  0.0000
+    4  ,  'Cattle slurry'            ,  3.16  ,  0.064  ,  0.034  ,  0.0022  ,  0.0000
+    5  ,  'Pig slurry'               ,  1.36  ,  0.060  ,  0.050  ,  0.0042  ,  0.0000
+    6  ,  'Poultry slurry'           ,  1.36  ,  0.093  ,  0.047  ,  0.0058  ,  0.0000
+    7  ,  'Compost'                  ,  1.96  ,  0.190  ,  0.041  ,  0.0008  ,  0.0000
+    8  ,  'Champost'                 ,  1.36  ,  0.220  ,  0.025  ,  0.0003  ,  0.0000
+    9  ,  'Urea'                     ,  0.00  ,  0.460  ,  0.000  ,  0.4600  ,  0.0000
+   10  ,  'Mineral N fertilizer'     ,  0.00  ,  0.000  ,  0.000  ,  0.5000  ,  0.5000
+   11  ,  'Green leaves'             ,  0.92  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   12  ,  'Overground crop residues' ,  0.99  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   13  ,  'Root and stubble residues',  1.57  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   14  ,  'Grass shoots'             ,  0.92  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   15  ,  'Grass roots'              ,  1.20  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   16  ,  'Tree leaves'              ,  2.25  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   17  ,  'Spruce needles'           ,  3.34  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+! MatNum      Number of the material. In the sme file for specification of events
+!             and dosages, the material is referred to MatNum in this snm-file.
+! MatName     Name of the material. This character string is used for assisting the 
+!             user and for clarification of materials and events in the model output
+! AppAge      Apparent Age parameter (year) in the Janssen's one parameter organic
+!             matter decay model.
+! OrgMatFrac  Organic Matter weight fraction of the material defined. (kilogram
+!             organic matter per kilogram total weight)
+! OrgNFrac    Nitrogen fraction of the organic matter (kilogram nitrogen per 
+!             kilogram organic matter)
+! NH4NFrac    Ammonium-N fraction of the material defined. (kilogram Ammonium-N per
+!             kilogram total weight). Nearly all crop residues do not contain
+!             Ammonium-N.
+! NO3NFrac    Nitrate-N fraction of the material defined. (kilogram Nitrate-N per
+!             kilogram total weight). Most of the organic fertilizers does not
+!             contain nitrate, but most of the mineral fertilizers contain nitrate.
+!             Grass shoots of heavily fertilzed grassland can contain a small
+!             quantity of nitrate in the fresh biomass
+* End of input file .smm!
+

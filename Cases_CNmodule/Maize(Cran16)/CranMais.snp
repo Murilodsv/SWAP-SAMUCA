@@ -1,0 +1,180 @@
+**********************************************************************************
+* Filename: CranMais.snp                                               
+* Contents: Soil Nutrient Parameters
+**********************************************************************************
+* Comment area:
+*
+* Case: Cranendonck - maize
+*
+**********************************************************************************
+* soil nutrient parameters
+
+* initial state variables of soil organic matter pools, 
+* ammonium-N liquid concentration and nitrate-N liquid concentration
+* initial states (results from 9 year initialisation with field Cran18)
+FOM1_t =    0.018757
+FOM2_t =    0.586857
+FOM3_t =    0.039595
+FOM4_t =    0.075828
+FOM5_t =    0.419924
+FOM6_t =    1.765052
+FOM7_t =    1.704247
+FOM8_t =    1.668781
+Bio_t =    0.650670
+Hum_t =   67.242824
+cNH4_t =    0.000962
+cNO3_t =    0.026183
+
+!-----------------------------------------------------------------------------------------
+!             Pool     Assimilation value   N-content value      Proposed initial fraction 
+!			                                                     of Soil Organic Matter  
+!-----------------------------------------------------------------------------------------
+!   FOM1_t    DPM      Minimum              Minimum              0.2%
+!   FOM2_t    DPM      Minimum              Maximum              0.9%
+!   FOM3_t    DPM      Maximum              Minimum              0.1%
+!   FOM4_t    DPM      Maximum              Maximum              0.1%
+!   FOM5_t    RPM      Minimum              Minimum              1.3%
+!   FOM6_t    RPM      Minimum              Maximum              1.5%
+!   FOM7_t    RPM      Maximum              Minimum              1.3%
+!   FOM8_t    RPM      Maximum              Maximum              1.3%
+!   BIO_t     BIO                                                1.3%
+!   HUM_t     HUM                                               92.0%
+!-----------------------------------------------------------------------------------------
+
+! FOM1_t until FOM8_t, Bio_t,  Hum_t are expressed in kilogram organic matter per m3 soil volume.
+! The sum of FOM1_t until FOM8_t + Bio_t + Hum_t should be equal to Soil Organic Matter content
+! (expressed in kg SOM per kg soil) multiplied by dry bulk density (kg soil per m3 soil volume) 
+! Initially,  the total of the organic matter present in soil should be attributed to the ten pools. 
+! Then, a pre-run is advised by which the model simulates the distribution of organic matter, 
+! as expressed by the pools' contents.
+! The final distribution is given in the PROJECT_nut.end file.
+! The pre-run can be repeated a number of times. If the fractional distribution of the pools seems 
+! to be stable, the repetition of pre-runs can be stopped. 
+! This final fractional distribution can be used to assign the initial values.  
+
+! cNH4_t : NH4-N concentration in soil moisture (kg per m3 water volume)
+! cNO3_t : NO3-N concentration in soil moisture (kg per m3 water volume)
+! If the method of pre-runs is applied, as proposed for organic matter pools, the final concentrations  
+! as given in the PROJECT_nut.end file can be used.
+
+
+
+* boundary concentrations
+cNH4N_top  = 0.0025 ! half of annual Ndepostion input as NH4N in rain
+cNH4N_lat  = 0.0
+cNH4N_seep = 0.0
+cNO3N_top  = 0.0025 ! half of annual Ndepostion input as NO3N in rain
+cNO3N_lat  = 0.0
+cNO3N_seep = 0.0
+
+! cNH4N_top : NH4-N total deposition expressed by the NH4-N concentration in rain. This concentration 
+!             should be calculated from the total NH4-N deposition divided by the precipitation amount.
+!             If the NH4-N deposition is specified by mol nitrogen per hectare per year and the 
+!             precipitation amount by millimeter per year, the concentration is calculated by:
+!             cNH4N_top = 0.0014 * NH4-N deposition / precipitation amount. 
+!             If only the total nitrogen deposition is known, we propose to take half of the total deposition.
+! cNH4N_lat : NH4-N concentration in lateral inflowing water from irrigation canals, or upstream adjacent fields. 
+!             If no surface irrigation is applied, or runon from  upstream adjacent fields appears, this 
+!             boundary condition variable can be set to zero.
+! cNH4N_seep: NH4-N concentration in upward seeping water at the bottom the root zone profile. In this simulation 
+!             module, the depth of the root zone is specified by dz_WSN.
+!             Take notice that the capillary rise also transports solutes from the deeper soil layer to the 
+!             root zone profile. If no information is available about this concentration, the value can be set to 
+!             zero, but it is advised to check for the NH4-N concentrations in leaching water in periods which 
+!             precede the periods in which the capillary rise occurs. Check for NH4_out, divided by WFl_Out, in 
+!             the PROJECT_nut.csv file.
+! cNO3N_top : NO3-N total deposition expressed by the NO3-N concentration in rain:
+!             cNO3N_top = 0.0014 * NO3-N deposition / precipitation amount. 
+!             If only the total nitrogen deposition is known, we propose to take half of the total deposition.
+! cNO3N_lat : NO3-N concentration in lateral inflowing water from irrigation canals, or upstream adjacent fields. 
+!             If no surface irrigation is applied, or runon from  upstream adjacent fields appears, this 
+!             boundary condition variable can be set to zero.
+! cNO3N_seep: Similar to cNH4N_seep, cNO3N_seep is the concentration in upward seeping water (incl. capillary rise) 
+!             at the bottom the root zone profile. If no information is available about this concentration, the 
+!             value can be set to zero, but check for NO3_out, divided by WFl_Out, in the PROJECT_nut.csv file.
+
+* Coefficients and rate constants
+Temp_ref          = 15.0
+SorpCoef          = 0.0005 
+RateConNitrif_ref = 1.0
+RateConDenitr_ref = 0.06
+
+! Temp_ref          : Reference temperature at which the transformation rates have been established. 
+!                     The temperature response of transformation rates is accounted for by an equation given by
+!                     Rijtema et al (1999). The response factor reads as:
+!                     Response factor = { 1/(1+exp(-0.26*(Temp-17.0)))     - 1/(1+exp(-0.77*(Temp-41.9)))     } / 
+!                                       { 1/(1+exp(-0.26*(Temp_ref-17.0))) - 1/(1+exp(-0.77*(Temp_ref-41.9))) }
+!                     If no information is available, the mean annual air temperature can be taken as a default.
+!                     The variable can be part of a calibration procedure. 
+! SorpCoef          : Ammonium sorption coefficient. Ammonium sorption is described by a linear relation. 
+!                     The coefficient is expressed in m3 soil water per kg soil. The retardation of the 
+!                     ammonium-N migration in soil is expressed as 
+!                     Retardation = 1 + sorption coefficient * dry bulkdensity / moisture volume fraction
+!                     Values of SorpCoef = 0.0005, dry bulk density = 1200 kg per m3 soil and moisture volume fraction = 0.3
+!                     leads to Retardation = 3. This value is somewhat high, but within the range of expected values.
+!                     If the retardation of ammonium migration is soils is known, then the coefficient can be 
+!                     calculated from:
+!                     Sorption coefficient = (Retardation - 1) * moisture volume / dry bulkdensity 
+!                     Simulation results appear to have a minor sensitivity to this coefficient. 
+! RateConNitrif_ref : Nitrification rate constant established at the reference temperature, expressed in 1/day
+! RateConDenitr_ref : Denitrification rate constant established at the reference temperature, expressed in 1/day
+
+
+* Response function parameters
+WFPSCrit   = 0.95
+WFPScrit2  = 0.7
+CdissiHalf = 0.001
+
+! WFPSCrit   :        critical water filled pore space value for organic matter transformation. At very wet conditions 
+!                     (water filled pore space > WFPScrit) the transformation rate is reduced. Between WFPS = WFPScrit and 
+!                     WFPS = 1, the  response function is expressed by a second order polynomial. At WFPS = WFPScrit the 
+!                     response function takes the value 6.*WFPS**2/(1.+9.*WFPS**4) and at WFPS = 1 it takes the value 0.01.
+! WFPScrit2  :        critical water filled pore space value for the denitrification rate. At WFPS > WFPScrit2 the response 
+!                     function is calculated according to: ((WFPS-WFPScrit2)/(1.0d0-WFPScrit2))**2. For values smaller than 
+!                     WFPScrit2, the response values is set to zero.
+! CdissiHalf :        parameter in the denitrification response function for the respiration activity in soil, expressed in
+!                     kilogram carbon per m2. When the  dissimilation rate of soil organic matter is low, the demand for 
+!                     nitrate-oxygen is also low and the denitrification rate is limited by the dissimilation rate. The 
+!                     dissimilation rate is calculated from the transformations of the organic matter pools. The response 
+!                     function reads as: response = carbon dissimilation / (parameter + carbon dissimilation). It should be 
+!                     noted that the parameter is specified in kilogram carbon per m2. The choice for other values of the 
+!                     depth of the effective soil layer dz_WSN influences the response values.
+
+* Soil supply uptake parameter
+TCSF_N = 0.5
+! TCSF_N :            Transpiration concentration stream factor. When the ammonium concentration in soil moisture is rate limiting,
+!                     the NH4-N uptake by plant roots is calculated according to:
+!                     Uptake = TCSF_N * (moisture volume fraction + drybulk density * SorpCoef) / (moisture volume fraction) *
+!                              transpiration flux * ammonium concentration, expressed in kg per m2
+!                     When the ammonium concentration in soil moisture is rate limiting, the NH4-N uptake by plant roots is 
+!                     calculated according to:
+!                     Uptake = TCSF_N * transpiration flux * ammonium concentration, expressed in kg per m2
+!                     The value for TCSF_N is dependent on soil type and the rooting pattern of the crop. 
+!                     For the simulation of nitrogen uptake responses to the availability of nitrogen (fertilization field trials), 
+!                     this parameter is calibrated.  
+!LaiCritNupt = 0.1
+! LaiCritNupt :       Critical LAI value to calculate uptake rate based on the ammonium availability
+!                     For the simulation of nitrogen uptake responses to the availability of nitrogen (fertilization field trials), 
+!                     this parameter is calibrated. This parameter is optional and may be left out if the hydrological and crop 
+!                     growth submodels are well tuned or if uptake at very low transpiration rates is unlimited
+
+* effective depth of soil layer
+dz_WSN = 1.0
+! dz_WSN :            Thickness of the soil layer considered for the simulation of the soil organic matter and nitrogen dynamics.
+!                     The model is based on a single layer approach and it should be noted that stratification of properties and
+!                     process rates can not be accounted for in this approach. The thickness mainly depends on the crop type. For high 
+!                     production grassland dz_WSN could be set to 0.3, whereas for winter wheat this parameter is much larger (e.g. 1.0 m).
+!                     Water balance items resulting from the SWAP model are aggregated and recalculated for the single layer model.
+
+* for experts:
+swexpertN = 0
+AppAgeArableRt = 1.57d0
+AppAgeArableLv = 0.99d0
+AppAgeArableSt = 1.57d0
+AppAgeArableSo = 1.57d0
+AppAgeGrassRt = 1.20d0
+AppAgeGrassLv = 0.92d0
+AppAgeGrassSt = 0.99d0
+
+* End of input file .snp!
+

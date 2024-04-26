@@ -1,0 +1,363 @@
+**********************************************************************************
+* Filename: NatureForestPine.CRP
+* Contents: SWAP 4 - Crop data of simple model
+**********************************************************************************
+* Comment area:
+* 
+**********************************************************************************
+
+*** PLANT GROWTH SECTION ***
+
+***********************************************************************************************
+* Part 1: Crop development                                           
+
+* Duration of crop growing period
+  IDEV = 1 ! 1 = duration is fixed 
+           ! 2 = duration is variable
+
+* If duration is fixed (IDEV = 1), specify:                                                
+  LCC  =   366 ! Duration of the crop growing period [1..366 days, I]
+
+* If duration is variable (IDEV = 2), specify:                                                
+  TSUMEA = 1050.0    ! Temperature sum from emergence to anthesis [0..1d4 ºC, R]
+  TSUMAM = 1000.0    ! Temperature sum from anthesis to maturity  [0..1d4 ºC, R]
+  TBASE  = 0.0       ! Start value of temperature sum [-10..30 ºC, R]
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 2: Light extinction                                           
+
+  KDIF   =     0.73 ! Extinction coefficient for diffuse visible light [0..2 -, R]
+  KDIR   =     0.73 ! Extinction coefficient for direct visible light  [0..2 -, R]
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 3: Leaf area index or soil cover fraction                                           
+
+  SWGC = 1 ! choice between leaf area index [=1] or soil cover fraction [=2]
+
+* If SWGC = 1, list leaf area index LAI [0..12 (m2 leaf)/(m2 soil), R],     as function of dev. stage [0..2 -, R]:
+* If SWGC = 2, list soil cover fraction SCF [0..1 (m2 cover)/(m2 soil), R], as function of dev. stage [0..2 -, R]:
+
+*        DVS   LAI or SCF  ! ( maximum MAGRS records)
+  GCTB =                
+        0.00   2.50
+        0.50   2.50  
+        0.69   3.00
+        1.50   3.00
+        1.67   2.50
+        2.00   2.50
+* End of table
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 4: Crop factor or crop height                             
+
+* Choose between crop factor and crop height
+* Choose crop factor if ETref is used, either from meteo input file (SWETR = 1) or with Penman-Monteith
+* Choose crop height if Penman-Monteith should be used with actual crop height, albedo and canopy resistance
+  SWCF = 2 ! 1 = crop factor 
+           ! 2 = crop height
+
+* If SWCF = 1, list crop factor CF [0..2 -, R],   as function of dev. stage DVS [0..2 -, R]:
+* If SWCF = 2, list crop height CH [0..1.d4 cm, R], as function of dev. stage DVS [0..2 -, R]:
+
+    DVS    CF      CH     ! ( maximum MAGRS records) 
+    0.0   1.0  1800.0    
+    2.0   1.0  1800.0   
+* End of table
+
+* If SWCF = 2, in addition to crop height list crop specific values for:
+  ALBEDO =   0.23 ! crop reflection coefficient [0..1.0 -, R]                    
+  RSC    =  150.0 ! Minimum canopy resistance [0..1d6 s/m, R]                    
+  RSW    =    0.0 ! Canopy resistance of intercepted water [0..1d6 s/m, R]       
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 5: rooting depth                                            
+
+* List rooting depth RD [0..1000 cm, R], as a function of development stage DVS [0..2 -, R]:
+
+*        DVS   RD        ! (maximum MAGRS records)
+  RDTB =              
+        0.0   70.00
+        2.0   70.00
+* End of table
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 6: yield response                                            
+
+* List yield response factor KY [0..5 -, R], as function of development stage DVS [0..2 -, R]:
+
+*        DVS   KY   (maximum MAGRS records)
+  KYTB =             
+        0.00   1.00
+        2.00   1.00
+* End of table
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 7: Soil water extraction by plant roots                                            
+ 
+* -- Part 7a: Oxygen stress -----------------------
+
+* Switch for oxygen stress:
+  SwOxygen = 1      ! 0 = No oxygen stress
+                    ! 1 = Oxygen stress according to Feddes et al. (1978)
+                    ! 2 = Oxygen stress according to Bartholomeus et al. (2008)
+
+* If SwOxygen = 1, specify:
+  HLIM1  =     -1.0    ! No water extraction at higher pressure heads [-100..100 cm, R]
+  HLIM2U =     -2.0    ! h below which optimum water extr. starts for top layer [-1000..100 cm, R]
+  HLIM2L =     -2.0    ! h below which optimum water extr. starts for sub layer [-1000..100 cm, R]
+
+* If SwOxygen = 2, specify:
+  SwOxygenType = 1      ! Switch for physical processes or reproduction functions to calculate oxygen stress:
+                        ! 1 = Use physical processes
+                        ! 2 = Use reproduction functions
+
+* If SwOxygenType = 1, specify:
+  Q10_microbial       = 2.8d0          ! Relative increase in microbial respiration at temperature rise of 10 ºC [1.0..4.0 -, R]
+  Specific_resp_humus = 1.6d-3         ! Respiration rate of humus at 25 ºC [0.0..1.0 kg O2/kg ºC/d, R] 
+  SRL                 = 151375.d0      ! Specific root length [0.d0..1d10 (m root)/(kg root), R]      
+  SwRootRadius        = 2              ! Switch for calculation of root radius:
+                                       ! 1 = Calculate root radius
+                                       ! 2 = Root radius is given in input file
+* If SwRootRadius = 1, specify:
+  Dry_mat_cont_roots      = 0.075d0    ! Dry matter content of roots [0..1 -, R]
+  Air_filled_root_por     = 0.05d0     ! Air filled root porosity [0..1 -, R]
+  Spec_weight_root_tissue = 1.0d3      ! Specific weight of non-airfilled root tissue [0..1d5 (kg root)/(m3 root), R]
+  Var_a                   = 4.175d-10  ! Variance of root radius [0..1 -, R]
+
+* If SwRootRadius = 2, specify:
+  Root_radiusO2 = 0.00015d0            ! Root radius (mind: in meter!) for oxygen stress module [1d-6..0.1 m, R]
+ 
+* If SwOxygenType = 2, specify:
+  SwTopSub     = 2      ! Switch for topsoil or subsoil: 1 = topsoil, 2 = subsoil
+  NrStaring    = 3      ! Number of soil type according to Staring series (Wosten et al., 2001), [1..18, I]
+ 
+* -- Part 7b: Drought stress -----------------------
+
+* Switch for drought stress:
+  SwDrought = 1      ! 1 = Drought stress according to Feddes et al. (1978)
+                     ! 2 = Drought stress according to De Jong van Lier et al. (2008)
+
+* If SwDrought = 1, or in case of irrigation scheduling (SCHEDULE = 1), specify:
+  HLIM3H =    -600.0    ! Pressure head below which water uptake reduction starts at high Tpot [-1d4..100 cm, R]
+  HLIM3L =    -600.0    ! Pressure head below which water uptake reduction starts at low Tpot [-1d4..100 cm, R]
+  HLIM4  =   -6000.0    ! No water extraction at lower soil water pressure heads [-2d4..100 cm, R]
+  ADCRH  =       0.5    ! Level of high atmospheric demand, corresponding to HLIM3H [0..5 cm/d, R]     
+  ADCRL  =       0.1    ! Level of low atmospheric demand, corresponding to HLIM3L [0..5 cm/d, R]     
+  ALPHACRIT =    1.0    ! Critical stress index (Jarvis, 1989) for compensation of root water uptake [0.2..1 -, R]  
+
+* If SwDrought = 2, specify:
+  WILTPOINT  = -20000.0 ! Minimum pressure head in leaves [-1d8..-1d2 cm, R]
+  KSTEM =       1.03d-4 ! Hydraulic conductance between leaf and root xylem [1d-10..10 /d, R]
+  RXYLEM =         0.02 ! Xylem radius [1d-4..1 cm, R]
+  ROOTRADIUS =     0.05 ! Root radius [1d-4..1 cm, R]
+  KROOT =        3.5d-5 ! Radial hydraulic conductivity of root tissue [1d-10..1d10 cm/d, R] 
+  ROOTCOEFA  =     0.53 ! Defines relative distance between roots at which mean soil water content occurs [0..1 -, R]
+  SWHYDRLIFT =        0 ! Switch for possibility hydraulic lift in root system [N=0, Y=1]
+  ROOTEFF    =      1.0 ! Root system efficiency factor [0..1 -, R]
+  STEPHR   =        1.0 ! Step between values of hroot and hxylem in iteration cycle [0..10 cm, R]
+  CRITERHR =      0.001 ! Maximum difference of Hroot between iterations; convergence criterium [0...10 cm, R]
+  TACCUR =        0.001 ! Maximum absolute difference between simulated and calculated potential transpiration rate (1d-5..1d-2 cm/d, R)
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 8: salt stress                                            
+
+* Switch salinity stress 
+  SWSALINITY = 0  ! 0 = No salinity stress
+                  ! 1 = Maas and Hoffman reduction function
+                  ! 2 = Use osmotic head
+
+* If SWSALINITY = 1, specify threshold and slope of Maas and Hoffman
+  SALTMAX   =  3.0 ! Threshold salt concentration in soil water  [0..100 mg/cm3, R] 
+  SALTSLOPE =  0.1 ! Decline of root water uptake above threshold [0..1.0 cm3/mg, R] 
+
+* If SWSALINITY = 2, specify:
+  SALTHEAD  =  624.0 ! Conversion salt concentration (mg/cm3) into osmotic head (cm) [0..1000.0 cm/(mg/cm3), R]  
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 9: interception                                            
+
+* Switch for rainfall interception method:
+  SWINTER =  2  ! 0 = No interception
+                ! 1 = Agricultural crops (Von Hoyningen-Hune and Braden)
+                ! 2 = Closed forest canopies (Gash)
+
+* In case of interception method for agricultural crops (SWINTER = 1), specify:
+  COFAB =  0.25 ! Interception coefficient Von Hoyningen-Hune and Braden [0..1 cm, R]
+
+* In case of interception method for closed forest canopies (SWINTER = 2), specify as function of time T [0..366 d, R]:
+* PFREE   = Free throughfall coefficient [0..1 -, R]
+* PSTEM   = Stem flow coefficient [0..1 -, R]
+* SCANOPY = Storage capacity of canopy [0..10 cm, R]
+* AVPREC  = Average rainfall intensity [0..100 cm/d, R]
+* AVEVAP  = Average evaporation intensity during rainfall from a wet canopy [0..10 cm/d, R]
+
+       T      PFREE     PSTEM    SCANOPY     AVPREC     AVEVAP     ! (maximum MAGRS records)
+     0.0        0.30      0.03     0.10        1.85      0.23
+    74.0        0.30      0.03     0.10        1.85      0.23
+   183.0        0.30      0.03     0.10        1.85      0.23
+   289.0        0.30      0.03     0.10        1.85      0.23
+   365.0        0.30      0.03     0.10        1.85      0.23
+* End of table
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 10: Root density distribution and root growth               
+
+* List root density [0..100 cm/cm3, R] as function of relative rooting depth [0..1 -, R]:
+* In case of drought stress according to Feddes et al. (1978) (SWDROUGHT = 1), relative root density (-) is sufficient
+
+*    Rdepth Rdensity          ! (maximum 11 records)
+  RDCTB =               
+ 0.071 0.05
+ 0.140 0.25
+ 0.286 0.20
+ 0.429 0.20
+ 0.571 0.10
+ 0.714 0.10
+ 0.857 0.05
+ 1.000 0.05
+* End of table
+************************************************************************************
+
+
+*** IRRIGATION SCHEDULING SECTION ***
+
+**********************************************************************************
+* Part 1: General
+
+  SCHEDULE = 0  ! Switch for application irrigation scheduling [Y=1, N=0] 
+
+* If SCHEDULE = 0, no more information is required in this input file! 
+* If SCHEDULE = 1, continue ....
+
+  STARTIRR = 30 3 ! Specify day and month at which irrigation scheduling starts [dd mm]
+  ENDIRR  = 31 12 ! Specify day and month at which irrigation scheduling stops [dd mm]
+  CIRRS = 0.0     ! Solute concentration of irrigation water [0..100 mg/cm3, R]
+  ISUAS = 1       ! Switch for type of irrigation method: 
+                  ! 0 = sprinkling irrigation
+                  ! 1 = surface irrigation
+
+* Specify pressure head at field capacity which will be used for irrigation timing options
+  phFieldCapacity = -100.0   ! Soil water pressure head at field capacity [-1000..0 cm, R] 
+**********************************************************************************
+
+**********************************************************************************
+* Part 2: Irrigation time criteria
+
+*** Choose one of the following 6 timing options:
+  TCS = 1  ! Switch for timing criterion [1..6 -, I]
+           ! 1 = Ratio actual/potential transpiration
+           ! 2 = Depletion of Readily Available Water
+           ! 3 = Depletion of Totally Available Water
+           ! 4 = Depletion of absolute Water Amount
+           ! 5 = Pressure head or moisture content
+           ! 6 = Fixed weekly irrigation, bring root zone back to field capacity
+ 
+
+* Ratio actual/potential transpiration (TCS = 1)
+* If TCS = 1, specify mimimum of ratio actual/potential transpiration Trel [0..1 -, R] as function of crop development stage
+  DVS_tc1  Trel   ! (maximum 7 records) 
+      0.0  0.95
+      2.0  0.95
+* End of table
+
+
+* Depletion of Readily Available Water (TCS = 2) 
+* If TCS = 2, specify minimum fraction of readily available water RAW [0..1 -, R] as function of crop development stage
+  DVS_tc2   RAW   ! (maximum 7 records)
+      0.0  0.95
+      2.0  0.95
+* End of table
+
+
+* Depletion of Totally Available Water (TCS = 3)
+* If TCS = 3, specify minimal fraction of totally available water TAW [0..1 -, R] as function of crop development stage
+  DVS_tc3   TAW   ! (maximum 7 records)
+      0.0  0.50
+      2.0  0.50
+* End of table
+
+
+* Depletion of absolute Water Amount (TCS = 4)
+* If TCS = 4, specify maximum amount of water depleted below field capacity DWA [0..500 mm, R] as function of crop development stage
+  DVS_tc4   DWA   ! (maximum 7 records)
+      0.0  40.0
+      2.0  40.0
+* End of table
+
+
+* Pressure head or Moisture content (TCS = 5), specify
+  PHORMC = 0    ! Switch, use either pressure head (PHORMC = 0) or water content (PHORMC = 1)
+  DCRIT = -30.0 ! Depth of the sensor [-100..0 cm, R]
+* Also specify critical pressure head [-1d6..-100 cm, R] or moisture content [0..1 cm3/cm3, R] as function of crop development stage
+  DVS_tc5  Value_tc5
+      0.0    -1000.0
+      2.0    -1000.0
+* End of table
+
+* In case TCS = 5, over-irrigation can be applied if the salinity concentration exceeds a threshold salinity
+* Switch for over-irrigation:
+  SWCIRRTHRES = 0    ! 0 = No over-irrigation
+                     ! 1 = Apply over-irrigation
+* If SWCIRRTHRES = 1, specify:
+  CIRRTHRES = 8.0    ! Threshold salinity concentration above which over-irrigation occurs [0..100 mg/cm3, R]
+  PERIRRSURP = 10.0  ! Over-irrigation as percentage of the usually scheduled irrigation depth [0..100 %, R]
+
+* Fixed weekly irrigation, root zone back to field capacity (TCS = 6), specify
+* Threshold value for weekly irrigation; only irrigate when soil water deficit in root zone is larger than threshold
+  IRGTHRESHOLD = 1.0       ! threshold value  [0..20 mm, R]
+
+
+* Switch for minimum time interval between irrigation applications
+  TCSFIX = 0       ! 0 = no minimum time interval
+                   ! 1 = define minimum time interval
+* If TCSFIX = 1, specify:
+  IRGDAYFIX = 7    ! Minimum number of days between irrigation applications [1..366 d, I]
+
+**********************************************************************************
+
+
+**********************************************************************************
+* Part 3: Irrigation depth criteria
+
+* Choose one of the following two options for irrigation depth:
+  DCS = 1      ! 1 = Back to Field Capacity
+               ! 2 = Fixed Irrigation Depth
+
+
+* Back to Field Capacity (DCS = 1)  
+* If DCS = 1, specify amount of under (-) or over (+) irrigation dI [-100..100 mm, R],
+* as function of crop development stage [0..2, R]
+    DVS_dc1    dI        ! (maximum 7 records)
+        0.0  10.0
+        2.0  10.0
+* End of table
+  RAITHRESHOLD = 10.0 ! When rainfall exceeds RAITHRESHOLD, dI is added to Back to Field Capacity [0..1000 cm, R]
+
+
+* Fixed Irrigation Depth (DCS = 2)
+* If DCS = 2, specify fixed irrigation depth FID [0..400 mm, R],
+* as function of crop development stage [0..2, R]
+    DVS_dc2   FID         ! (maximum 7 records)
+        0.0  60.0
+        2.0  60.0
+* End of table
+
+
+* Select minimum and maximum of irrigation depths:
+  dcslim = 0         ! Switch, limit range irrigation depth  [Y=1, N=0]
+
+* If dcslim = 1, specify:
+  irgdepmin = 10.0    !  Minimum irrigation depth [0..100 mm, I]
+  irgdepmax = 80.0    !  Maximum irrigation depth [irgdepmin..1d7 mm, I]
+
+
+* End of .crp file !

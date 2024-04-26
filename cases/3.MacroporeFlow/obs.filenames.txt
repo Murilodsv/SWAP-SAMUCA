@@ -1,0 +1,11 @@
+Content: Filenames of observed datafiles
+Location: Wwheat
+landuse,  PIname,      PIunit,        filnamobs
+arable,   Yield,       kg/ha/yr DM,   ./observed/obs.yield.csv.txt
+arable,   LAI,         m2/m2,         NA
+arable,   ETact,       mm/yr,         NA
+arable,   Gwl,         m-soilsurface, ./observed/obs.gwl.csv.txt
+arable,   Theta20cm,   m3/m3,         NA
+arable,   PresHead20cm,cm,            NA
+arable,   qDrain,      mm,            ./observed/obs.drainage.csv.txt
+arable,   qBot,        mm,            NA

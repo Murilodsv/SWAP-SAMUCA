@@ -1,0 +1,40 @@
+**********************************************************************************
+* Filename: Zavalla.sme                                                   
+* Contents: Soil Management Events                                                                    
+**********************************************************************************
+* Comment area:
+*
+* Case: Zavalla - field 25e
+*
+* An example with input values that are beyond the simulation period
+* In this there are no soil management events (no tillage soybean) 
+* and the fertilizer is not applied because the dates are later then 
+* the end of the simulation period
+**********************************************************************************
+
+* Soil management events: 
+* (smedate(1) must be after start of simulation !!)
+    smedate    MatNum Dosagekgha VolatFraction
+     01-nov-2023    10    25.    0.0
+     01-dec-2023    10    50.    0.0
+     01-jan-2024    10    25.    0.0
+
+!  smedate:       date (dd-mmm-yyyy) of fertilizer application or amendment of a
+!                 certain material (organic waste, residue) preferably in ascending
+!                 order. Take notice: specification of events out of the range of
+!                 the simulation period can cause errors. If different materials are
+!                 amended, specify them on individual records. Multiple records for
+!                 the same day can be specified.
+!  Matnum:        Number of the material amended at the date specified. The number
+!                 refers to the definition of materials in the snm-file
+!  Dosagekgha:    dosage (kilogram per hectare) of the application
+!  VolatFraction: fraction of the ammonium-N that is lost at the time of application
+!                 by volatilization. Take notice of the fact that volatilization
+!                 afterwards is not included in the model. If volatilization is
+!                 expected to occur, it should be described as an instantaneous 
+!                 process at the time of application.
+!                 If the ammonium-N content of the material equals zero, acoording
+!                 the the specification in the snm-file, a dummy-value should be
+!                 given.
+
+* End of input file .sme!

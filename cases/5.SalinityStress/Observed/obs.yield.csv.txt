@@ -1,0 +1,13 @@
+# Measured: Yield (storage organs kg/ha DM)
+# Location: Salt Farm (Gerrit van Straten en Arjen de Vos)
+# Reference: Vos, A. de, B. Bruning, G. van Straten, R. Oosterbaan, J. Rozema and P. van Bodegom, (2016). 
+#            Crop salt tolerance under controlled field conditions in The Netherlands, based on trials 
+#            conducted at Salt Farm Texel. SaltFarm Texel. Texel. The Netherlands. 
+#            Retrieved from www.saltfarmtexel.com 
+#            as http://www.saltfarmtexel.com/application/files/5714/8776/5471/saltfarm-texel_brochure_A4.pdf, dd 24-April-2017
+# Remark   : Potatoes, assumption: dry matter DM = 21% of fresh weight
+"Date","property","value"
+2012-07-19,"CWSO",5423.
+2013-08-29,"CWSO",5247.
+2014-08-12,"CWSO",3231.
+2015-08-18,"CWSO",8160.

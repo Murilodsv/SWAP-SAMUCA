@@ -1,0 +1,5 @@
+# Measured: Yield (kg/ha dry matter), CWSO = Cum.WeightStorageOrgans (kg/ha DM)
+# Location: Zavalla field 35e,  freshweight=3687.8, harvest_moist=0.135
+# Reference: .......
+"Date","property","value"
+2014-04-05,"CWSO",3189.9

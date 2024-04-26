@@ -1,0 +1,13 @@
+# Measured: N-Yield (kg/ha N), CRNTYD = som N-opname
+# Location: Cranendonck veld 16
+# Reference: J. Schroder et al. (1985)
+"Date","property","value"
+1974-10-03,"CRNTYD",196
+1975-10-03,"CRNTYD",219
+1976-10-03,"CRNTYD",170
+1977-10-03,"CRNTYD",197
+1978-10-03,"CRNTYD",182
+1979-10-03,"CRNTYD",166
+1980-10-03,"CRNTYD",209
+1981-10-02,"CRNTYD",204
+1982-10-02,"CRNTYD",238

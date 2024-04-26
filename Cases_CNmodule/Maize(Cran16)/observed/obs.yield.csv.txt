@@ -1,0 +1,13 @@
+# Measured: Yield (kg/ha dry matter), CWDM = som bovengronds
+# Location: Cranendonck veld 16
+# Reference: J. Schroder et al. (1985)
+"Date","property","value"
+1974-10-03,"CWDM",14080
+1975-10-03,"CWDM",16670
+1976-10-03,"CWDM",10240
+1977-10-03,"CWDM",13970
+1978-10-03,"CWDM",12340
+1979-10-03,"CWDM",12380
+1980-10-03,"CWDM",14710
+1981-10-02,"CWDM",14800
+1982-10-02,"CWDM",14900

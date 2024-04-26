@@ -1,0 +1,612 @@
+***********************************************************************************************
+* Filename: GMaizeD.CRP
+* Contents: SWAP 3.2 - Data for detailed crop model
+***********************************************************************************************
+*c Grain maize (Zea mays L.)
+** $Id: mag201.cab 1.3 1997/09/25 14:06:58 LEM release $
+** File MAG201.CAB
+** CROP DATA FILE for use with WOFOST Version 5.4, June 1992
+**
+** GRAIN MAIZE 201 
+** Regions : Germany, R13, R15, R16, R17 and Luxembourg 
+** sowing date 1 May
+** mean date of flowering 26 July, mature 20 October
+
+** Derived from SUCROS87 data set for maize.
+** Calibrated for use in WOFOST model at the Centre for Agrobiological 
+** Research (CABO-DLO) for the simulation of crop growth and yield on the 
+** basis of daily weather data.
+** Purpose of application: Crop growth monitoring with agrometeorological 
+** model in the EC.
+** Developed in the framework of JRC Agriculture Project Action 3. 
+***********************************************************************************************
+
+*** PLANT GROWTH SECTION ***
+
+***********************************************************************************************
+* Part 1: Crop factor or crop height
+
+  SWCF = 2 ! choice between crop factor [=1] or crop height [=2]
+* Choose crop factor if ETref is used, either from meteo input file (SWETR = 1) or with Penman-Monteith
+* Choose crop height if Penman-Monteith should be used with actual crop height, albedo and resistance
+
+* If SWCF = 1, list crop factor CF [0.5..1.5, R],   as function of dev. stage DVS [0..2 -,R]:
+* If SWCF = 2, list crop height CH [0..1000 cm, R], as function of dev. stage DVS [0..2 -,R]:
+* (maximum 36 records)
+         DVS      CH  CF
+         0.0     1.0  0.5
+         0.3    15.0  0.8
+         0.5    40.0  1.0
+         0.7   140.0  1.0
+         1.0   170.0  1.0
+         1.4   180.0  1.0
+         2.0   175.0  1.0
+* End of Table
+
+* If SWCF = 2, list crop specifi values for:
+  ALBEDO =   0.20 ! crop reflection coefficient [0..1.0 -, R]                    
+  RSC    =  131.0 ! Minimum canopy resistance [0..10^6 s/m, R]                    
+  RSW    =    0.0 ! Canopy resistance of intercepted water [0..10^6 s/m, R]
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 2 : Crop development
+
+  IDSL   =        0 ! Switch for crop development:
+*                     0 = Crop development before anthesis depends on temperature only
+*                     1 = Crop development before anthesis depends on daylenght e only
+*                     2 = Crop development before anthesis depends on both
+
+* If IDSL = 1 or 2, specify:
+  DLO    =  1.0     ! Minimum day length for optimum crop development [0..24 h, R]
+  DLC    =  0.0     ! Shortest day length for any development, [0..24 h, R]
+
+* If IDSL = 0 or 2 specify:
+*  TSUMEA =   695.00 ! Temperature sum from emergence to anthesis, [0..10000 C, R]
+  TSUMEA =   850.00 ! Temperature sum from emergence to anthesis, [0..10000 C, R]
+  TSUMAM =   800.00 ! Temperature sum from anthesis to maturity  [0..10000 C, R]
+
+* List increase in temperature sum [0..60 C, R] as function of daily average temp. [0..100 C, R]
+*         TAV  DTSM    (maximum 15 records)
+  DTSMTB =
+            0.00   0.00
+            6.00   0.00
+           30.00  24.00
+           35.00  24.00
+* End of Table
+
+  DVSEND =      2.00 ! development stage at harvest [-]
+
+* germination   defined in .swp-file : 
+*  INITCRP=1: CROPSTART defines emergence (default), INITCRP=2: CROPSTART defines sowing
+* IF INITCRP = 2 specify
+  TSUMEMEOPT  =   70.0   ! temperature sum needed for crop emergence     [0..1000 C d, R]
+  TBASEM      =    6.0   ! minimum temperature, used for germination trajectory  [0..40 C, R]  
+  TEFFMX      =   30.0   ! maximum temperature, used for germination trajectory  [0..40 C, R]  
+  HDRYGERM    = -500.0   ! pressure head rootzone for dry germination trajectory [-1000..-0.01 cm, R]
+  HWETGERM    =   -50.0 ! pressure head rootzone for wet germination trajectory [-100..-0.01 cm, R]
+  AGERM       =  203.    ! a-coefficient Eq. 24/25 Feddes & Van Wijk     [1..1000, R]
+  CGERM       = -432.    ! c-coefficient Eq. 24    Feddes & Van Wijk     [1..1000, R]
+  BGERM       =  522.    ! b-coefficient Eq. 25    Feddes & Van Wijk     [1..1000, R]  
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 3: Initial values
+
+  TDWI   =   20.00   ! Initial total crop dry weight [0..10000 kg/ha, R]
+  LAIEM  = 0.04836   ! Leaf area index at emergence [0..10 m2/m2, R]
+  RGRLAI = 0.02940   ! Maximum relative increase in LAI [0..1 m2/m2/d, R]
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 4: Green surface area
+
+  SPA    =  0.0000 ! Specific pod area  [0..1 ha/kg, R]
+  SSA    =  0.0000 ! Specific stem area [0..1 ha/kg, R]
+  SPAN   =   33.00 ! Life span under leaves under optimum conditions, [0..366 d, R]
+  TBASE  =   10.00 ! Lower threshold temperature for ageing of leaves ,[-10..30 C, R]
+
+* List specific leaf area [0..1 ha/kg, R] as function of devel. stage [0..2, R]
+
+*         DVS  SLA    (maximum 15 records)
+  SLATB =
+           0.00 0.0026
+           0.78 0.0012
+           2.00 0.0012
+* End of Table 
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 5: Assimilation
+
+  KDIF   =    0.60 ! Extinction coefficient for diffuse visible light, [0..2 -, R]
+  KDIR   =    0.75 ! Extinction coefficient for direct visible light, [0..2 -, R]
+  EFF    =    0.45 ! Light use efficiency for real leaf [0..10 kg CO2 /J adsorbed), R]
+*
+* List max CO2 assimilation rate [0..100 kg/ha/hr, R] as function of development stage [0..2 -, R]
+*          DVS    AMAX   (maximum 15 records)
+  AMAXTB =
+           0.00 70.000
+           1.25 70.000
+           1.50 70.000
+           1.75 70.000
+           2.00 70.000
+* End of table 
+
+* List reduction factor of AMAX [-, R] as function of average day temp. [-10..50 C, R]
+
+*          TAVD   TMPF  (maximum 15 records)
+  TMPFTB =
+           0.00  0.010
+           9.00  0.050
+          16.00  0.800
+          18.00  0.940
+          20.00  1.000
+          30.00  1.000
+          36.00  0.950
+          42.00  0.560
+* End of table 
+
+* List reduction factor of AMAX [-, R] as function of minimum day temp. [-10..50 C, R]
+
+*          TMNR    TMNF  (maximum 15 records)
+  TMNFTB = 
+           5.00  0.000
+           8.00  1.000
+* End of table 
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 6: Conversion of assimilates into biomass
+*
+  CVL    =  0.6800 ! Efficiency of conversion into leaves,         [0..1 kg/kg, R]
+  CVO    =  0.6710 ! Efficiency of conversion into storage organs, [0..1 kg/kg, R]
+  CVR    =  0.6900 ! Efficiency of conversion into roots,          [0..1 kg/kg, R]
+  CVS    =  0.6580 ! Efficiency of conversion into stems,          [0..1 kg/kg, R]
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 7: Maintenance respiration
+*
+  Q10    =  2.0000 ! Rel. increase in respiration rate with temperature, [0..5 /10 C, R]
+  RML    =  0.0300 ! Rel. maintenance respiration rate of leaves,  [0..1 kgCH2O/kg/d, R]
+  RMO    =  0.0100 ! Rel. maintenance respiration rate of st. org.,[0..1 kgCH2O/kg/d, R]
+  RMR    =  0.0150 ! Rel. maintenance respiration rate of roots,   [0..1 kgCH2O/kg/d, R]
+  RMS    =  0.0150 ! Rel. maintenance respiration rate of stems,   [0..1 kgCH2O/kg/d, R]
+
+* List reduction factor of senescence [-, R] as function of dev. stage [0..2 -, R]
+
+*          DVS    RFSE  (maximum 15 records)
+  RFSETB = 
+           0.00   1.00
+           1.50   1.00
+           1.75   0.75
+           2.00   0.25
+* End of table 
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 8: Partitioning
+
+* List fraction of total dry matter increase partitioned to the roots [kg/kg, R]
+* as function of development stage [0..2 -, R]
+*          DVS     FR    (maximum 15 records)
+  FRTB = 
+           0.00   0.40
+           0.10   0.37
+           0.20   0.34
+           0.30   0.31
+           0.40   0.27
+           0.50   0.23
+           0.60   0.19
+           0.70   0.15
+           0.80   0.10
+           0.90   0.06
+           1.00   0.00
+           2.00   0.00
+* End of table 
+
+* List fraction of total above ground dry matter incr. part. to the leaves [kg/kg, R]
+* as function of development stage [0..2 -, R]
+
+*          DVS     FL   (maximum 15 records)
+  FLTB = 
+           0.00   0.62
+           0.33   0.62
+           0.88   0.15
+           0.95   0.15
+           1.10   0.10   
+           1.20   0.00
+           2.00   0.00
+* End of table 
+
+* List fraction of total above ground dry matter incr. part. to the stems [kg/kg, R]
+* as function of development stage [0..2 -, R]
+
+*          DVS    FS   (maximum 15 records)
+  FSTB = 
+           0.00   0.38
+           0.33   0.38
+           0.88   0.85
+           0.95   0.85
+           1.10   0.40
+           1.20   0.00
+           2.00   0.00
+* End of table 
+
+* List fraction of total above ground dry matter incr. part. to the st. organs [kg/kg, R]
+* as function of development stage [0..2 -, R]
+
+*          DVS    FO    (maximum 15 records)
+*           0.00   0.00
+  FOTB = 
+           0.95   0.00
+           1.10   0.50
+           1.20   1.00
+           2.00   1.00
+* End of table
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 9: Death rates
+
+  PERDL =   0.030 ! Maximum rel. death rate of leaves due to water stress [0..3 /d, R]
+
+* List relative death rates of roots [kg/kg/d] as function of dev. stage [0..2 -, R]
+*          DVS    RDRR    (maximum 15 records)
+  RDRRTB = 
+          0.0000 0.0000
+          1.5000 0.0000
+          1.5001 0.0200
+          2.0000 0.0200
+* End of table
+
+* List relative death rates of stems [kg/kg/d] as function of dev. stage [0..2 -, R]
+*          DVS     RDRS    (maximum 15 records)
+  RDRSTB = 
+          0.0000 0.0000
+          1.5000 0.0000
+          1.5001 0.0200
+          2.0000 0.0200
+* End of table
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 10: Crop water use                                            
+* 
+* -- Part 10a: Oxygen stress -----------------------
+
+* Switch for oxygen stress:
+  SwOxygen = 2      ! 1 = Oxygen stress according to Feddes et al. (1978)
+                    ! 2 = Oxygen stress according to Bartholomeus et al. (2008)
+
+* If SwOxygen = 1, specify:
+  HLIM1  =    -10.0    ! No water extraction at higher pressure heads, [-100..100 cm, R]
+  HLIM2U =    -25.0    ! h below which optimum water extr. starts for top layer, [-1000..100 cm, R]
+  HLIM2L =    -25.0    ! h below which optimum water extr. starts for sub layer, [-1000..100 cm, R]
+
+
+* If SwOxygen = 2, specify:
+  Q10_microbial       = 2.8d0      ! Relative increase in microbial respiration at temperature increase of 10 ºC [1.0..4.0 -, R]
+  Specific_resp_humus = 1.6d-3     ! 2.258d-4   ! Respiration rate of humus at 25 ºC [0.0..1.0 kg O2/kg C/d, R] 
+  SRL                 = 151375.d0  ! Specific root length [0.d0..1.d10 m root/kg root, R]      
+  SwRootRadius        = 2          ! Switch for calculation of root radius
+                                         ! 1 calculate root radius
+                                         ! 2 root radius given in input file
+* If SwRootRadius = 1, specify:
+  Dry_mat_cont_roots      = 0.075d0    ! Dry matter content of roots [0..1.0 -, R]
+  Air_filled_root_por     = 0.05d0     ! Air filled root porosity [0..1.0 -, R]
+  Spec_weight_root_tissue = 1.0d3      ! Specific weight of non-airfilled root tissue [0.d0..1.d5 kg root/m3 root, R]
+  Var_a                   = 4.175d-10  ! Variance of root radius [0.d0..1.d0 -, R]
+* If SwRootRadius = 2, specify:
+  Root_radiusO2 = 0.00015d0            ! meter! root radius for oxygen stress module
+
+* 
+* -- Part 10b: Drought stress -----------------------
+
+* Switch for drought stress:
+  SwDrought = 1      ! 1 = Drought stress according to Feddes et al. (1978)
+                     ! 2 = Drought stress according to De Jong van Lier et al. (2008)
+
+* If SwDrought = 1, or in case of irrigation scheduling, specify:
+  HLIM3H =    -400.0    ! h below which water uptake red. starts at high Tpot, [-10000..100 cm, R]
+  HLIM3L =    -500.0    ! h below which water uptake red. starts at low Tpot, [-10000..100 cm, R]
+  HLIM4  =  -10000.0    ! No water extraction at lower pressure heads, [-16000..100 cm, R]
+  ADCRH  =       0.5    ! Level of high atmospheric demand, [0..5 cm/d, R]     
+  ADCRL  =       0.1    ! Level of low atmospheric demand,  [0..5 cm/d, R]     
+
+*  hidden option : (0.3 is default value after Jarvis for moderate drought compensation)
+  ALPHACRIT = 0.7        ! Criticial stress index for compensation of root water uptake [0.2 .. 1.0 -, R]  
+
+* If SwDrought = 2, specify:
+  WILTPOINT  = -20000.0 ! Minimum pressure head in leaves, [-1.0d8..-1.0d2 cm, R]
+  KSTEM =       1.03d-4 ! Conductance in the path from leaf to root xylem [1.0d-10..1.0d0 /d, R]
+  RXYLEM =         0.02 ! Xylem radius, [0.0001..1 cm, R]
+  ROOTRADIUS =     0.05 ! Root radius, [0.0001..1 cm, R]
+  KROOT =        3.5d-5 ! Radial hydraulic conductivity of root tissue [1.0d-10..1.0d10 cm/d, R] 
+  ROOTCOEFA  =     0.53 ! Defines relative distance at which mean soil water content occurs, [0..1.0 -, R]
+  SWHYDRLIFT =        0 ! Switch for possibility hydraulic lift in root system, [N=0, Y=1]
+  ROOTEFF    =      1.0 ! Root system efficiency factor [0..1.0 -, R]
+  STEPHR   =        1.0 ! Step between values of hroot and hxylem in iteration cycle [0.d0..10.d0 cm, R]
+  CRITERHR =      0.001 ! Maximum difference of Hroot between iterations; convergence criterium [0.d0..10.d0 cm, R]
+  TACCUR =        0.001 ! Maximum absolute difference between simulated and calculated potential transpiration rate (1.0d-5..1.0d-2 cm/d, R)
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 11: salt stress                                            
+
+* only when solutes are simulated (SWSOLU=1 in SWP-file)
+
+* relation between ECsat and crop reduction
+  ECMAX  =       1.8 ! ECsat level at which salt stress starts, [0..20 dS/m, R] 
+  ECSLOP =       7.4 ! Decline of rootwater uptake above ECMAX [0..40 %/dS/m, R] 
+
+* relation between concentration and ECsat
+  C2ECa  =     4.21  ! coefficient a to convert concentration to EC [0.0..1000.0 -, R]
+  C2ECb  =     0.763 ! exponent b to convert concentration to EC [0.0..10.0 -, R]
+* Switch to enter factor f (SWC2ECF ) per profile or per soil layer/horizon [1,2 -, I]
+*    if SWC2ECF = 1 then enter one C2ECf-value for whole model profile
+*    if SWC2ECF = 2 then enter one C2ECf-value for each model/soil layer/horizon
+  SWC2ECF = 1
+* factor f to convert concentration to EC [0.0..10.0 -, R]; 
+*    dependent on SWC2ECF one value for model profile or a value for each soil horizon
+  C2ECf  = 1.7
+***********************************************************************************************
+
+***********************************************************************************************
+* Section 12: Interception                                            
+*
+  COFAB  =      0.25 ! Interception coefficient Von Hoyningen-Hune and Braden, [0..1 cm, R]
+***********************************************************************************************
+
+***********************************************************************************************
+* Part 13: Root density distribution and root growth               
+
+  RDI    =   10.00 ! Initial rooting depth, [0..1000 cm, R]
+  RRI    =    2.20 ! Maximum daily increase in rooting depth, [0..100 cm/d, R]
+  RDC    =  100.00 ! Maximum rooting depth crop/cultivar, [0..1000 cm, R]
+
+* List relative root density [0..1 -, R], as function of rel. rooting depth [0..1 -, R]:
+*          RD     RDC   (maximum 11 records)
+*        Rdepth  Rdensity   (maximum 11 records)
+  RDCTB = 
+0.0,1.000
+0.1,0.741
+0.2,0.549
+0.3,0.407
+0.4,0.301
+0.5,0.223
+0.6,0.165
+0.7,0.122
+0.8,0.091
+0.9,0.067
+1.0,0.050
+* End of table
+
+* Expert-option for rooting depth limitation by relative dry matter increase (dmi/dmipot) 
+* (default = no limitation: SWDMI2RD = 0; with limitation: SWDMI2RD = 1)
+  SWDMI2RD = 1
+
+************************************************************************************
+*** MANAGEMENT SECTION ***
+
+*** NITROGEN SECTION ***
+
+**********************************************************************************
+
+** Nitrogen use
+* Data from: Linutl4,  http://models.pps.wur.nl/models
+*                      param values from MAG202.DATo
+*      reference:    Wolf, J. (2012). Users guide for LINTUL4 and LINTUL4V: 
+*                    Simple generic model for simulation of crop growth under 
+*                    potential, water limited and nitrogen limited conditions. 
+*                    WUR-PPS report (Vol. 4).
+RDRNS    = 0.05     ! max. relative death rate of leaves due to N stress
+DVSNLT   = 1.3      ! development stage above which no crop nitrogen uptake does occur
+DVSNT    = 0.8      ! development stage above which nitrogen translocation to storage organs does occur 
+FNTRT    = 0.15     ! nitrogen translocation from roots as a fraction of total N amount translocated from leaves and stems
+FRNX     = 0.5      ! optimal N concentration as fraction of maximum N concentration
+LRNR     = 0.50     ! maximum N concentration in roots as fraction of maximum N concentration in leaves
+LSNR     = 0.50     ! maximum N concentration in stems as fraction of maximum N concentration in leaves
+NLAI     = 1.0      ! coefficient for the reduction due to N stress of the LAI increase (during juvenile phase)
+NLUE     = 1.1      ! coefficient for the reduction of RUE due to  Nitrogen stress
+NMAXSO   = 0.05     ! maximum N concentration (= 1.6*min. N conc.) in storage organs [kg N kg-1 dry biomass]
+NPART    = 1.0      ! coefficient for the effect of N stress on leaf biomass reduction 
+NSLA     = 0.5      ! coefficient for the effect of N stress on SLA reduction
+RNFLV    = 0.0053   ! residual N fraction in leaves [kg N kg-1 dry biomass]
+RNFST    = 0.0027   ! residual N fraction in stems [kg N kg-1 dry biomass]
+RNFRT    = 0.0027   ! residual N fraction in roots [kg N kg-1 dry biomass]
+TCNT     = 10.0     ! time coefficient for N translocation to storage organs [days]
+NFIXF    = 0.0      ! fraction of crop nitrogen uptake by biological fixation [-]
+NMXLV    =  0.0, 0.06,   ! maximum N concentration in leaves as function of development stage [kg N kg-1 dry biomass]
+            0.4, 0.04,
+            0.7, 0.03,
+            1.0, 0.02,
+            2.0, 0.022,
+            2.1, 0.022
+
+
+
+**********************************************************************************
+
+* Harvest losses of organic matter 
+FraHarLosOrm_lv = 0.2   ! fraction harvest losses of organic matter from leaves         [0.0..1.0 kg.kg-1 DM, R]
+FraHarLosOrm_st = 0.1   ! fraction harvest losses of organic matter from stems          [0.0..1.0 kg.kg-1 DM, R]
+FraHarLosOrm_so = 0.01  ! fraction harvest losses of organic matter from storage organs [0.0..1.0 kg.kg-1 DM, R]
+FraDeceasedLvToSoil = 0.3   ! fraction of deceased leaves lost to soil  [0.0..1.0 kg.kg-1 DM, R]
+
+**********************************************************************************
+
+* Part : Management factor
+
+ relmf = 1.0
+
+************************************************************************************
+
+************************************************************************************
+** CO2-impact:
+*    correction of photosynthesis as a function of atmospheric CO2 concentration (-)
+*    correction of radiation use efficiency as a function of atmospheric CO2 concentration (-)
+*    correction of transpiration as a function of atmospheric CO2 concentration (-)
+FLCO2 = .TRUE.       ! Switch/flag for application of CO2 correction [Y=.TRUE., N=.FALSE.] 
+*  For C4-crops like forage maize:
+CO2AMAXTB  =  40.,  0.0,   ! multiplication factor for AMAX 
+             360.,  1.0,   ! to account for an increasing CO2 concentration
+             720.,  1.0, 
+            1000.,  1.0,
+            2000.,  1.0
+   
+CO2EFFTB   =  40.,  0.0,   ! multiplication factor for EFF 
+             360.,  1.0,   ! to account for an increasing CO2 concentration
+             720.,  1.0, 
+            1000.,  1.0,
+            2000.,  1.0
+   
+CO2TRATB   =  40.,  0.0,  ! multiplication factor for maximum transpiration rate 
+             360.,  1.0,  ! to account for an increasing CO2 concentration
+             720.,  0.74, 
+            1000.,  0.74,
+            2000.,  0.74
+**  actual CO2 concentration in atmosphere [ppm] in file Atmospheric.CO2
+************************************************************************************
+
+
+*** IRRIGATION SCHEDULING SECTION ***
+
+**********************************************************************************
+* Part 1: General
+
+  SCHEDULE = 0  ! Switch for application irrigation scheduling [Y=1, N=0] 
+
+* If SCHEDULE = 0, no more information is required in this input file! 
+* If SCHEDULE = 1, continue ....
+
+  STARTIRR = 30 3 ! Specify day and month after which irrigation scheduling is allowed [dd mm]
+  ENDIRR = 31 10  ! Specify day and month after which irrigation scheduling is NOT allowed [dd mm]
+  CIRRS = 0.0     ! solute concentration of scheduled irrig. water, [0..100 mg/cm3, R]
+  ISUAS = 0       ! Switch for type of irrigation method: 
+                  ! 0 = sprinkling irrigation
+                  ! 1 = surface irrigation
+
+* Specify pressure head at field capacity
+* required for timing options  TCS = 2, 3, or 4 and depth option DCS = 1, else dummy 
+  phFieldCapacity = -100.0   ! soil hydraulic pressure head [-1000.0 .. 0.0,cm, R] 
+
+**********************************************************************************
+
+
+**********************************************************************************
+* Part 2: Irrigation time criteria
+
+*** Choose one of the following 5 timing options:
+  TCS = 5  ! Switch, timing criterion  [1..6, I]]
+!            TCS = 1   :  Daily Stress
+!            TCS = 2   :  Depletion of Readily Available Water
+!            TCS = 3   :  Depletion of Totally Available Water
+!            TCS = 4   :  Depletion Water Amount
+!            TCS = 5   :  Pressure head or moisture content
+!            TCS = 6   :  Fixed weekly irrigation, rootzone to field capacity
+ 
+
+*** Daily stress criterion (TCS = 1)
+* If TCS = 1, specify mimimum of ratio actual/potential transpiration Trel [0..1, R],
+* as function of development stage DVS_tc1 [0..2, R], maximum 7 records:
+  DVS_tc1  Trel
+      0.0  0.95
+      2.0  0.95
+* End of table
+
+
+*** Depletion of Readily Available Water (TCS = 2) 
+* If TCS = 2, specify minimal fraction of readily available water RAW [0..1, R],
+* as function of development stage DVS_tc2 [0..2, R], maximum 7 records:
+  DVS_tc2   RAW
+      0.0  0.95
+      2.0  0.95
+* End of table
+
+
+*** Depletion of Totally Available Water (TCS = 3)
+* If TCS = 3, specify minimal fraction of totally available water TAW [0..1, R],
+* as function of development stage DVS_tc3 [0..2, R], maximum 7 records:
+  DVS_tc3   TAW
+      0.0  0.50
+      2.0  0.50
+* End of table
+
+
+*** Depletion Water Amount (TCS = 4)
+* If TCS = 4, specify maximum amount of water depleted below field cap. DWA [0..500 mm, R],
+* as function of development stage DVS_tc4 [0..2, R], maximum 7 records:
+  DVS_tc4   DWA
+      0.0  40.0
+      2.0  40.0
+* End of table
+
+
+*** Pressure head or Moisture content (TCS = 5)
+* If TCS = 5, specify:
+  PHORMC = 0   ! Switch, use pressure head (PHORMC=0) or water content (PHORMC=1)
+  DCRIT = -30.0! Depth of the sensor [-100..0 cm, R]
+* Also specify critical pressure head [-1.d6..-100 cm, R] or moisture content 
+* [0..1.0 cm3/cm3, R], as function of development stage DVS_tc5 [0..2, R]:
+  DVS_tc5  Value_tc5
+      0.0    -1000.0
+      2.0    -1000.0
+* End of table
+
+*** allow overirrigation when conc exceeds concthreshold
+ swcirrthres = 0
+ cirrthres =  0.3
+ perirrsurp = 50.0
+ 
+*** Fixed weekly irrigation, rootzone to field capacity (TCS = 6)
+* If TCS = 6, specify: 
+* Threshold for weekly irrigation; only irrigate when deficit is higher than threshold
+  irgthreshold = 1.0       ! threshold value  [0.0..20.0 mm, R]
+
+
+*** Select (optional) fixed time interval:
+  tcsfix = 0  ! Switch, fixed timing criterion  [0 or 1, I]]
+* If tcsfix = 1, specify:
+  irgdayfix = 7    !   length of interval (number of days) [1..365, I]
+
+**********************************************************************************
+
+
+**********************************************************************************
+* Part 3: Irrigation depth criteria
+
+*** Choose one of the following 2 options for irrigation depth:
+* Next line is required for Swap303 - swap3177
+  DCS = 1      ! Switch, depth criterion  [1..2, I]]
+!                DCS = 1 :  Back to Field Capacity
+!                DCS = 2 :  Fixed Irrigation Depth
+
+
+*** Back to Field Capacity (DCS = 1)  
+* If DCS = 1, specify amount of under (-) or over (+) irrigation dI [-100..100 mm, R],
+* as function of development stage DVS_dc1 [0..2, R], maximum 7 records:
+  DVS_dc1   dI
+     0.0  10.0
+     2.0  10.0
+* End of table
+
+
+*** Fixed Irrigation Depth (DCS = 2)
+* If DCS = 2, specify fixed irrigation depth FID [0..400 mm, R],
+* as function of development stage DVS_dc2 [0..2, R], maximum 7 records:
+  DVS_dc2   FID
+      0.0  60.0
+      2.0  60.0
+* End of table
+
+
+*** Select (optional) limitations of irrigation depth:
+  dcslim = 0  ! Switch, limited irrigation depth  [0=No, 1=Yes]   [0..1, I]
+* If dcslim = 1, specify:
+  irgdepmin = 0.0    !   minimum irrigation depth [0.0d0 .. 100.0d0, mm, I]
+  irgdepmax = 0.0    !   maximum irrigation depth [irgdepmin .. 1.0d7, mm, I]
+
+
+* End of .crp file !

@@ -1,0 +1,30 @@
+**********************************************************************************
+* Filename: CranMais.smm                                                
+* Contents: Soil Management Material Definitions                                                                   
+**********************************************************************************
+* Comment area:
+*
+* Case: Cranendonck - maize
+*
+**********************************************************************************
+* soil management material definitions
+MatNum ,   MatName                   , AppAge  OrgMatFrac,OrgNFrac,  NH4NFrac,NO3NFrac
+    1  ,  'Cattle manure'            ,  3.16  ,  0.150  ,  0.035  ,  0.0012  ,  0.0000
+    2  ,  'Pig manure'               ,  1.36  ,  0.161  ,  0.037  ,  0.0015  ,  0.0000
+    3  ,  'Poultry manure'           ,  1.36  ,  0.376  ,  0.058  ,  0.0024  ,  0.0000
+    4  ,  'Cattle slurry'            ,  3.16  ,  0.064  ,  0.034  ,  0.0022  ,  0.0000
+    5  ,  'Pig slurry'               ,  1.36  ,  0.060  ,  0.050  ,  0.0042  ,  0.0000
+    6  ,  'Poultry slurry'           ,  1.36  ,  0.093  ,  0.047  ,  0.0058  ,  0.0000
+    7  ,  'Compost'                  ,  1.96  ,  0.190  ,  0.041  ,  0.0008  ,  0.0000
+    8  ,  'Champost'                 ,  1.36  ,  0.220  ,  0.025  ,  0.0003  ,  0.0000
+    9  ,  'Urea'                     ,  0.00  ,  0.460  ,  0.000  ,  0.4600  ,  0.0000
+   10  ,  'Mineral N fertilizer'     ,  0.00  ,  0.000  ,  0.000  ,  0.5000  ,  0.5000
+   11  ,  'Green leaves'             ,  0.92  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   12  ,  'Overground crop residues' ,  0.99  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   13  ,  'Root and stubble residues',  1.57  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   14  ,  'Grass shoots'             ,  0.92  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   15  ,  'Grass roots'              ,  1.20  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   16  ,  'Tree leaves'              ,  2.25  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+   17  ,  'Spruce needles'           ,  3.34  ,  1.000  ,  0.000  ,  0.0000  ,  0.0000
+* End of input file .smm!
+
