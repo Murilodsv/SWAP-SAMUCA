@@ -1,0 +1,20 @@
+***********************************************************************************************
+* If CUMDENSTB = 1 use prescribed root distribution in cumdens [from Samuca.par file]
+* If CUMDENSTB = 0 use SAMUCA's root lenght density to scale cumdens [from Samuca.par file]
+* List relative root density [0..1 -, R], as function of relative rooting depth [0..1 -, R]:
+*        Rdepth  Rdensity   (maximum 11 records)
+  RDCTB = 
+     0.000     1.000 
+     0.100     0.239
+     0.200     0.142
+     0.300     0.132
+     0.400     0.132
+     0.500     0.132
+     0.600     0.132
+     0.700     0.132
+     0.800     0.132
+     0.900     0.132
+     1.000     0.132
+* End of table
+***********************************************************************************************
+

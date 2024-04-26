@@ -1,0 +1,39 @@
+! Crop Parameters for Sugarcane (SAMUCA)
+
+! Project: SEQ_F1_S2                                         
+! Site:    Piracicaba - SP                                   
+! Sim.Det: Automaticaly created by R-Script                  
+! Variety: RB867515            
+
+!---------------------------!------------------------------!-------!
+! Value                     ! Name                         ! Type  !
+!---------------------------!------------------------------!-------!
+                         2 ! tillermet                     !  (I)  !
+                         2 ! metpg                         !  (I)  !
+                         1 ! swroottyp                     !  (I)  !
+                         1 ! idev                          !  (I)  !
+                         1 ! swgc                          !  (I)  !
+                         1 ! swcf                       !  (I)  !
+                         1 ! swinter                         !  (I)  !
+                         1 ! usetsoil                          !  (I)  !
+                         0 ! potential_growth                       !  (I)  !
+                      20.0 ! plantdepth                       !  (R)  !
+                     140.0 ! rowsp                       !  (R)  !
+                     380.0 ! co2                         !  (R)  !
+                       1.0 ! alphacrit                        !  (R)  !
+                       1.0 ! hlim1                        !  (R)  !
+                       1.0 ! hlim2l                        !  (R)  !
+                       1.0 ! hlim2u                        !  (R)  !
+                    -790.0 ! hlim3h                        !  (R)  !
+                   -1000.0 ! hlim3l                        !  (R)  !
+                  -15000.0 ! hlim4                        !  (R)  !
+                       0.6 ! adcrh                       !  (R)  !
+                       0.2 ! adcrl                       !  (R)  !
+                      0.14 ! alb_surface                       !  (R)  !
+                     314.5 ! hrnc                       !  (R)  !
+                     177.8 ! dhrlai                       !  (R)  !
+                      17.0 ! tbot_mean                       !  (R)  !
+                       6.0 ! tbot_ampli                       !  (R)  !
+                     365.0 ! tbot_imref                    !  (R)  !
+                     350.0 ! tbot_ddamp                       !  (R)  !
+!--------------------------!------------------------------!-------!

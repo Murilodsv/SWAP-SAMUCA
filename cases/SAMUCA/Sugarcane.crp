@@ -1,0 +1,166 @@
+***********************************************************************************************
+* Filename: Sugarcane.crp
+* Contents: SWAP 4 - Data for detailed Sugarcane model [SAMUCA]
+***********************************************************************************************
+
+***********************************************************************************************
+* If CUMDENSTB = 1 use prescribed root distribution in cumdens [from Samuca.par file]
+* If CUMDENSTB = 0 use SAMUCA's root lenght density to scale cumdens [from Samuca.par file]
+* List relative root density [0..1 -, R], as function of relative rooting depth [0..1 -, R]:
+*        Rdepth  Rdensity   (maximum 11 records)
+  RDCTB = 
+     0.000     1.000 
+     0.100     0.239
+     0.200     0.142
+     0.300     0.132
+     0.400     0.132
+     0.500     0.132
+     0.600     0.132
+     0.700     0.132
+     0.800     0.132
+     0.900     0.132
+     1.000     0.132
+* End of table
+***********************************************************************************************
+*** IRRIGATION SCHEDULING SECTION ***
+**********************************************************************************
+* Part 17: General
+
+  SCHEDULE =    0  ! Switch for application irrigation scheduling [Y=1, N=0] 
+
+* If SCHEDULE = 0, no more information is required in this input file! 
+* If SCHEDULE = 1, continue ....
+
+  STARTIRR = 1  1 ! Specify day and month at which irrigation scheduling starts [dd mm]
+  ENDIRR  = 31 12 ! Specify day and month at which irrigation scheduling stops [dd mm]
+  CIRRS = 0.0     ! Solute concentration of irrigation water [0..100 mg/cm3, R]
+  ISUAS = 0       ! Switch for type of irrigation method: 
+                  ! 0 = sprinkling irrigation
+                  ! 1 = surface irrigation
+
+* Specify pressure head at field capacity which will be used for irrigation timing options
+  phFieldCapacity = -100.0   ! Soil water pressure head at field capacity [-1000..0 cm, R] 
+**********************************************************************************
+
+**********************************************************************************
+* Part 18: Irrigation time criteria
+
+*** Choose one of the following 5 timing options:
+  TCS =    7  ! Switch for timing criterion [1..6 -, I]
+           ! 1 = Ratio actual/potential transpiration
+           ! 2 = Depletion of Readily Available Water
+           ! 3 = Depletion of Totally Available Water
+           ! 4 = Depletion of absolute Water Amount
+           ! 5 = Pressure head or moisture content
+           ! 6 = Fixed weekly irrigation, bring root zone back to field capacity
+           ! 7 = Fraction of Readily Available Water at a fixed soil depth [Implemented for SAMUCA]
+ 
+
+* Ratio actual/potential transpiration (TCS = 1)
+* If TCS = 1, specify mimimum of ratio actual/potential transpiration Trel [0..1 -, R] as function of crop development stage
+  DVS_tc1  Trel   ! (maximum 7 records) 
+      0.0  0.95
+      2.0  0.95
+* End of table
+
+
+* Depletion of Readily Available Water (TCS = 2) 
+* If TCS = 2, specify minimum fraction of readily available water RAW [0..1 -, R] as function of crop development stage
+  DVS_tc2   RAW   ! (maximum 7 records)
+      0.0  0.95
+      2.0  0.95
+* End of table
+
+
+* Depletion of Totally Available Water (TCS = 3)
+* If TCS = 3, specify minimal fraction of totally available water TAW [0..1 -, R] as function of crop development stage
+  DVS_tc3   TAW   ! (maximum 7 records)
+      0.0  0.50
+      2.0  0.50
+* End of table
+
+
+* Depletion of absolute Water Amount (TCS = 4)
+* If TCS = 4, specify maximum amount of water depleted below field capacity DWA [0..500 mm, R] as function of crop development stage
+  DVS_tc4   DWA   ! (maximum 7 records)
+      0.0  40.0
+      2.0  40.0
+* End of table
+
+
+* Pressure head or Moisture content (TCS = 5), specify
+  PHORMC = 0    ! Switch, use either pressure head (PHORMC = 0) or water content (PHORMC = 1)
+  DCRIT = -30.0 ! Depth of the sensor [-100..0 cm, R]
+* Also specify critical pressure head [-1d6..-100 cm, R] or moisture content [0..1 cm3/cm3, R] as function of crop development stage
+  DVS_tc5  Value_tc5
+      0.0    -1000.0
+      2.0    -1000.0
+* End of table
+
+* In case TCS = 5, over-irrigation can be applied if the salinity concentration exceeds a threshold salinity
+* Switch for over-irrigation:
+  SWCIRRTHRES = 0    ! 0 = No over-irrigation
+                     ! 1 = Apply over-irrigation
+* If SWCIRRTHRES = 1, specify:
+  CIRRTHRES = 8.0    ! Threshold salinity concentration above which over-irrigation occurs [0..100 mg/cm3, R]
+  PERIRRSURP = 10.0  ! Over-irrigation as percentage of the usually scheduled irrigation depth [0..100 %, R]
+
+* In case TCS = 6, specify: 
+* Fixed weekly irrigation, root zone back to field capacity (TCS = 6), specify
+* Threshold value for weekly irrigation; only irrigate when soil water deficit in root zone is larger than threshold
+  IRGTHRESHOLD = 1.0       ! threshold value  [0..20 mm, R]
+
+* Switch for minimum time interval between irrigation applications
+  TCSFIX = 0       ! 0 = no minimum time interval
+                   ! 1 = define minimum time interval
+* If TCSFIX = 1, specify:
+  IRGDAYFIX = 7    ! Minimum number of days between irrigation applications [1..366 d, I]
+  
+* In case TCS = 7, prescribe depletion fraction to trigger the irrigation [AppThresh] and management soil depth [ManagDepth]
+  AppThresh   =        0.8    ! [0..1 -, R]
+  ManagDepth  =       60.0   ! [0..1000 cm, R]
+  IrriEff     =        0.8   ! [0..1 -, R]
+  IrriManag   =          0      ! [0..2 -, I]
+  IniDAP      =          0      ! [0..1000 dap, I]
+  EndDAP      =        330    ! [0..1000 dap, I]
+
+**********************************************************************************
+
+
+**********************************************************************************
+* Part 19: Irrigation depth criteria
+
+* Choose one of the following two options for irrigation depth:
+  DCS = 1      ! 1 = Back to Field Capacity
+               ! 2 = Fixed Irrigation Depth
+
+
+* Back to Field Capacity (DCS = 1)  
+* If DCS = 1, specify amount of under (-) or over (+) irrigation dI [-100..100 mm, R],
+* as function of crop development stage [0..2, R]
+    DVS_dc1    dI        ! (maximum 7 records)
+        0.0  10.0
+        2.0  10.0
+* End of table
+
+  RAITHRESHOLD = 10.0 ! When rainfall exceeds RAITHRESHOLD, dI is added to Back to Field Capacity [0..1000 cm, R]
+
+
+* Fixed Irrigation Depth (DCS = 2)
+* If DCS = 2, specify fixed irrigation depth FID [0..400 mm, R],
+* as function of crop development stage [0..2, R]
+    DVS_dc2   FID         ! (maximum 7 records)
+        0.0  60.0
+        2.0  60.0
+* End of table
+
+
+* Select minimum and maximum of irrigation depths:
+  dcslim = 0         ! Switch, limit range irrigation depth  [Y=1, N=0]
+
+* If dcslim = 1, specify:
+  irgdepmin = 10.0    !  Minimum irrigation depth [0..100 mm, I]
+  irgdepmax = 80.0    !  Maximum irrigation depth [irgdepmin..1d7 mm, I]
+
+
+* End of .crp file !

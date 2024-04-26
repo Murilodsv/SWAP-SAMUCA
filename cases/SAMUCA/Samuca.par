@@ -1,0 +1,137 @@
+! Crop Parameters for Sugarcane (SAMUCA)
+
+! Project: SEQ_F1_S1                                         
+! Site:    Piracicaba - SP                                   
+! Sim.Det: Automaticaly created by R-Script                  
+! Variety: RB867515            
+
+!---------------------------!------------------------------!-------!
+! Value                     ! Name                         ! Type  !
+!---------------------------!------------------------------!-------!
+                         3 ! nsenesleaf_effect            !  (I)  !
+                        12 ! maxgl                        !  (I)  !
+                        15 ! n_lf_max_ini_la              !  (I)  !
+                         3 ! n_lf_when_stk_emerg          !  (I)  !
+                         3 ! n_lf_it_form                 !  (I)  !
+                         6 ! maxdgl                       !  (I)  !
+                         0 ! schedule irrigation          !  (I)  !
+                      41.3 ! amax                         !  (R)  !
+                0.06465016 ! eff                          !  (R)  !
+                     282.9 ! phtmax                       !  (R)  !
+                      56.2 ! parmax                       !  (R)  !
+                      80.0 ! ccmp                         !  (R)  !
+                      1.09 ! ccmax                        !  (R)  !
+                     0.007 ! cceff                        !  (R)  !
+                       2.6 ! rue                          !  (R)  !
+                      12.0 ! tb                           !  (R)  !
+                      12.0 ! tb0pho                       !  (R)  !
+                      16.0 ! tb1pho                       !  (R)  !
+                      32.0 ! tb2pho                       !  (R)  !
+                      40.0 ! tbfpho                       !  (R)  !
+                      18.0 ! tbper                        !  (R)  !
+                      35.0 ! tbMax_per                    !  (R)  !
+                     650.0 ! chustk                       !  (R)  !
+                    1400.0 ! chupeak                      !  (R)  !
+                    1600.0 ! chudec                       !  (R)  !
+                    3200.0 ! chumat                       !  (R)  !
+                       9.5 ! popmat                       !  (R)  !
+                      22.0 ! poppeak                      !  (R)  !
+                       0.4 ! ltthreshold                  !  (R)  !
+                      39.0 ! tillochron                   !  (R)  !
+                      0.75 ! fdeadlf                      !  (R)  !
+                     132.0 ! phyllochron                  !  (R)  !
+                     120.0 ! sla                          !  (R)  !
+                     100.0 ! rdm                          !  (R)  !
+                      22.0 ! srlMax                       !  (R)  !
+                      16.0 ! srlMin                       !  (R)  !
+                     0.048 ! rootdrate                    !  (R)  !
+                     120.0 ! max_rt_dw                    !  (R)  !
+                    3000.0 ! end_tt_rt_growth             !  (R)  !
+                      0.03 ! rootleftfrac                 !  (R)  !
+                       1.0 ! kdif                         !  (R)  !
+                      2.75 ! dpercoeff                    !  (R)  !
+                     600.0 ! mla                          !  (R)  !
+                      0.05 ! kc_min                       !  (R)  !
+                       1.3 ! eoratio                      !  (R)  !
+                       0.3 ! rwuep1                       !  (R)  !
+                       0.9 ! rwuep2                       !  (R)  !
+                       0.0 ! t_max_ws_pho                 !  (R)  !
+                       0.2 ! t_mid_ws_pho                 !  (R)  !
+                       0.6 ! t_min_ws_pho                 !  (R)  !
+                       0.0 ! t_max_ws_exp                 !  (R)  !
+                       0.4 ! t_mid_ws_exp                 !  (R)  !
+                       1.0 ! t_min_ws_exp                 !  (R)  !
+                     115.0 ! plastochron                  !  (R)  !
+                       0.5 ! frac_suc_BG                  !  (R)  !
+                       0.5 ! frac_hex_BG                  !  (R)  !
+                      15.0 ! init_leaf_area               !  (R)  !
+                     120.0 ! max_ini_la                   !  (R)  !
+                       3.0 ! cr_source_sink_ratio_ruse    !  (R)  !
+                      10.0 ! init_plantdepth_ratoon       !  (R)  !
+                  3.074286 ! maxlai_eo                    !  (R)  !
+                     0.242 ! gresp                        !  (R)  !
+                    0.0123 ! kmr_leaf                     !  (R)  !
+                    0.0036 ! kmr_stem                     !  (R)  !
+                    0.0086 ! kmr_root                     !  (R)  !
+                    0.0022 ! kmr_stor                     !  (R)  !
+                     1.584 ! q10_leaf                     !  (R)  !
+                     1.804 ! q10_stem                     !  (R)  !
+                     1.804 ! q10_root                     !  (R)  !
+                     1.804 ! q10_stor                     !  (R)  !
+                      25.0 ! tref_mr                      !  (R)  !
+                      50.0 ! tbm                          !  (R)  !
+                      0.05 ! threshews                    !  (R)  !
+                     0.072 ! dshootext_BG_rate            !  (R)  !
+                    1000.0 ! mid_tt_rt_growth             !  (R)  !
+                      18.0 ! it_struc_tb_ini              !  (R)  !
+                      31.0 ! it_struc_to1                 !  (R)  !
+                      55.0 ! it_struc_to2                 !  (R)  !
+                      60.0 ! it_struc_tb_end              !  (R)  !
+                      28.0 ! max_it_dw                    !  (R)  !
+                     400.0 ! mid_tt_it_growth             !  (R)  !
+                    1200.0 ! end_tt_it_growth             !  (R)  !
+                     550.0 ! mid_tt_lf_growth             !  (R)  !
+                     950.0 ! end_tt_lf_growth             !  (R)  !
+                      0.95 ! it_struc_pfac_max            !  (R)  !
+                       0.0 ! it_struc_pfac_min            !  (R)  !
+                       0.0 ! it_struc_pfac_tb             !  (R)  !
+                      50.0 ! it_struc_pfac_tm             !  (R)  !
+                     800.0 ! it_struc_pfac_te             !  (R)  !
+                       1.0 ! it_struc_pfac_delta          !  (R)  !
+                      0.15 ! it_struc_pfac_temp_max_red   !  (R)  !
+                      0.15 ! it_struc_pfac_wate_max_red   !  (R)  !
+                       5.0 ! max_it_dw_BG                 !  (R)  !
+                   0.06584 ! suc_min                      !  (R)  !
+                       4.0 ! max_per_it                   !  (R)  !
+                       1.0 ! tilleragefac_adjust          !  (R)  !
+                  9.881798 ! dswat_ddws                   !  (R)  !
+                  11.24845 ! dswat_dsuc                   !  (R)  !
+                       2.0 ! rootshape                    !  (R)  !
+                     0.004 ! hex_min                      !  (R)  !
+                      0.35 ! suc_acc_ini                  !  (R)  !
+                       2.5 ! suc_frac_rate_ts             !  (R)  !
+                   0.00267 ! swcon1                       !  (R)  !
+                      62.0 ! swcon2                       !  (R)  !
+                      6.68 ! swcon3                       !  (R)  !
+                      0.07 ! rwumax                       !  (R)  !
+                      0.02 ! pormin                       !  (R)  !
+                    1250.0 ! tt_chumat_lt                 !  (R)  !
+                       2.0 ! res_used_emerg_fac           !  (R)  !
+                      -2.0 ! agefactor_fac_amax           !  (R)  !
+                      -2.0 ! agefactor_fac_rue            !  (R)  !
+                      -5.0 ! agefactor_fac_per            !  (R)  !
+                      0.15 ! c_scattering                 !  (R)  !
+                      0.75 ! k                            !  (R)  !
+                      10.0 ! root_front_size              !  (R)  !
+                     -7.95 ! Parameters Feddes            !  (R)  !
+                    -13.52 ! Parameters Feddes            !  (R)  !
+                    -13.52 ! Parameters Feddes            !  (R)  !
+                    -806.0 ! Parameters Feddes            !  (R)  !
+                   -2164.0 ! Parameters Feddes            !  (R)  !
+                  -15880.0 ! Parameters Feddes            !  (R)  !
+                       0.5 ! Parameters Feddes            !  (R)  !
+                       0.1 ! Parameters Feddes            !  (R)  !
+                       0.7 ! Parameters Feddes            !  (R)  !
+                      20.0 ! Planting depth [in SAMUCA, this is a management parameter] !  (R)  !
+!--------------------------!------------------------------!-------!
+
