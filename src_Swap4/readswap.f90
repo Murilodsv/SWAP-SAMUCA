@@ -294,7 +294,7 @@
         call rdftim ('cropend',cropend,macrop,ifnd)
         call rdfcha ('cropname',cropname,macrop,ifnd)
         call rdfcha ('cropfil',cropfil,macrop,ifnd)
-        call rdfinr ('croptype',1,3,croptype,macrop,ifnd)
+        call rdfinr ('croptype',1,4,croptype,macrop,ifnd)
 !       Germination option as crop specific switch
         initcrp = 1   ! default starting date: emergence
         if(rdinqr('initcrp')) then
@@ -763,7 +763,7 @@
           nheat = ifnd
 
 !   -     top boundary temperature
-          call rdsinr ('SwTopbHea',1,2,SwTopbHea)
+          call rdsinr ('SwTopbHea',1,3,SwTopbHea)
           Tsoilfile = ' '
           if (swtopbhea .eq. 2) then
             call rdscha ('TSoilFile',tsoilfile)

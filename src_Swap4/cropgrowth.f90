@@ -62,6 +62,8 @@
           if (croptype(icrop) .eq. 2) call Wofost(1)
 ! ---     detailed grass growth  -----------------------------------------------
           if (croptype(icrop) .eq. 3) call Grass(1)
+! ---     detailed sugarcane growth --------------------------------------------
+          if (croptype(icrop) .eq. 4) call Samuca(1)
           flCropReadFile = .false.
         
           call CropOutput(1)
@@ -128,6 +130,8 @@
 
       else if (croptype(icrop) .eq. 3) then
         call Grass(2)
+      else if (croptype(icrop) .eq. 4) then
+        call Samuca(2)
       endif
 
       return
@@ -149,7 +153,8 @@
       end if
 ! --- detailed grass growth  -----------------------------------------------
       if (croptype(icrop).eq.3) call Grass(3)
-
+      if (croptype(icrop).eq.4) call Samuca(3)
+      
       return
 
       case (4)

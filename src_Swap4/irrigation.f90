@@ -20,10 +20,15 @@
       real(8) watcon,prhead,dps1,dps2,afgen,Tred
       real(8) dvstage(7),trel(7),raw(7),taw(7),dwa(7),hcri(7),tcri(7)
       real(8) di(7),fid(7),irgdepmax,irgdepmin,irgthreshold
+      real(8) appthresh,managdepth,irrieff                              ! SAMUCA pars
+      real(8) thold_idepth,taw_idepth,raw_idepth,nirr,girr,fcp,wpp,dep  ! SAMUCA state/rates
+      real(8) swc,h_fcp,h_wpp                                           ! SAMUCA state/rates
+      integer nlay,sl,dap_irr,irrmanag,irr_dap_ini,irr_dap_end,doy_irr  ! SAMUCA state/rates
       real(4) fsec
       real(8) tstairryrx,tendirryrx, grai_red
       logical flIrriTime
       logical rdinqr
+      logical fl_irrigate                                               ! SAMUCA irrigation scheduling
       character(len=80) filnam
       character(len=200) messag
 
@@ -67,7 +72,7 @@
 
 
 ! ---   timing criteria
-        call rdsinr ('tcs',1,6,tcs)
+        call rdsinr ('tcs',1,7,tcs)
 
 
 ! -1-   timing - allowable daily stress
@@ -154,6 +159,19 @@
           dayfix = 6
         endif
 
+! -7SAMUCA-   Timing - Irrigation is triggered by fraction of 
+!       soil depleteion at given soil management depth
+!       [this is more relistic with reality as growers never know the 
+!        actual rooting depth]
+        if (tcs.eq.7) then
+          call rdsdor ('appthresh',0.0d0,1.0d0,appthresh)
+          call rdsdor ('managdepth',0.0d0,1000.0d0,managdepth)    
+          call rdsdor ('irrieff',0.0d0,1.0d0,irrieff)          
+          call rdsinr ('irrimanag',0,2,irrmanag) !0=no irrig; 1=full-time irrigation; 2=irrigation between two DAPs
+          call rdsinr ('inidap',0,1000,irr_dap_ini)
+          call rdsinr ('enddap',0,1000,irr_dap_end)
+          fl_irrigate = .false. ! flag indicating whether irrigation should happen this day
+        endif
 
 ! -7-   Timing - fixed intervals
         call rdsinr ('tcsfix',0,1,tcsfix)
@@ -400,7 +418,102 @@
           endif
         endif
 
-
+! -7SAMUCA-   Timing - Irrigation is triggered by fraction of 
+!       soil depleteion at given soil management depth
+!       [this is more relistic with reality as growers never know the 
+!        actual rooting depth]
+        if (tcs.eq.7) then
+            
+            !--- get DAP
+            dap_irr = daycrop
+            
+            !--- get DOY
+            !--- this is necessary because swap only updates rain variables for the next day!
+            if(mod(iyear, 4) .lt. 1) then
+                doy_irr = min(daynr + 1,366) ! leap year
+            else
+                doy_irr = min(daynr + 1,365) ! regular year
+            endif            
+            
+            !--- check irrigation scheduling type
+            fl_irrigate = .false.
+            select case(irrmanag)
+            
+            case(0)
+                !--- switch-off [WARNING: irrmanag should not be zero if schedule=1]
+                fl_irrigate = .false.
+            
+            case(1)
+                !--- irrigation at all times
+                fl_irrigate = .true.
+                   
+            case(2)
+                !--- irrigate between dap's intervals
+                if(dap_irr .gt. irr_dap_ini .and. dap_irr .lt. irr_dap_end) then 
+                    fl_irrigate = .true.  
+                endif
+        
+            end select
+            
+            !--- do not irrigate if its raining
+            !--- note: swap only reads rain after thus we use daynr+1
+            if(arai(doy_irr) .gt. 0.01)then
+                fl_irrigate = .false.
+            endif
+            
+            !--- get total available water and holding capacity for
+            !--- management depth
+        
+            !--- initialize
+            thold_idepth = 0.d0
+            taw_idepth   = 0.d0
+            raw_idepth   = 0.d0
+            nirr         = 0.d0
+            girr         = 0.d0
+            
+            !--- ph at field capacity and wilting point
+            !--- Note: these ph should be irrigation parameters or linked with feddes 
+            h_fcp        = -330.    
+            h_wpp        = -15000.
+            
+            !--- number of compartments
+            i = 1
+            do while (dz(i) .gt. 1.d-8)
+                i = i + 1                
+            end do
+            nlay = i-1
+            
+            !--- Total holding capacity and available water up to the irrig depth
+            do node = 1, nlay
+            
+                !--- get field capacity [assuming ph=-330]                
+                fcp = watcon(node,h_fcp,cofgen,swsophy,numtab,sptab,ientrytab) 
+                
+                !--- get wilting point [assuming ph=-15000]
+                wpp = watcon(node,h_wpp,cofgen,swsophy,numtab,sptab,ientrytab) 
+                
+                !--- get soil water content
+                swc = watcon(node,h(node),cofgen,swsophy,numtab,sptab,ientrytab)
+                
+                !--- depth of compartment [positive]
+                dep = (z(node) - dz(node)*0.5d0)*-1.0
+                
+                if(dep .lt. managdepth)then
+                    thold_idepth = thold_idepth + (fcp - wpp) * dz(node)
+                    taw_idepth   = taw_idepth   + max(0.d0, (swc - wpp)) * dz(node)
+                else if ((dep - dz(node)) .lt. managdepth) then
+                    thold_idepth = thold_idepth + (fcp - wpp) * (dz(node) - (dep - managdepth))
+                    taw_idepth   = taw_idepth   + max(0.d0, (swc - wpp)) * (dz(node) - (dep - managdepth))
+                end if
+            enddo
+    
+            !--- Relative available water within the irrigation depth
+            raw_idepth = taw_idepth / thold_idepth            
+            
+            !--- trigger
+            if(raw_idepth .lt. appthresh .and. fl_irrigate) irrigevent = 2                
+            
+        endif
 
 ! -7-   Timing - fixed intervals
         if (tcsfix.eq.1) then
@@ -437,6 +550,20 @@
         if ((irrigevent.eq.2).and.(dcslim.eq.1)) then
           gird = max(gird,irgdepmin/10.0d0)
           gird = min(gird,irgdepmax/10.0d0)
+        endif
+        
+        if((irrigevent.eq.2).and.(tcs.eq.7)) then                  
+          !--- net and gross for samuca case TCS=7
+          nirr = (thold_idepth - taw_idepth)
+          girr = nirr / irrieff            
+          
+          !--- set swap global states
+          gird = girr
+          nird = nirr
+          
+          !--- PATCH [SWAP DOES NOT USE nird]
+          gird = nird
+          
         endif
 
 
