@@ -1,0 +1,32 @@
+{
+    //DEBUG SWAP-SAMUCA
+    "version": "2.0.0",
+    "configurations": [
+        {
+            "name": "Debug SWAP-SAMUCA",
+            //Select plataform
+            "windows": {
+                "cwd": "${workspaceRoot}/cases/SAMUCA", // Set execution working directory
+                "args": [""],                           // No args [ARRAY]
+                "miDebuggerPath": "gdb.exe",            // Set Debugger path    
+            },
+            "osx": {
+                "cwd": "${workspaceRoot}/cases/SAMUCA", // Same as win
+                "args": [""],                           // No args [ARRAY]
+                "miDebuggerPath": "/usr/local/bin/gdb", // Set Debugger path    
+            },
+            "linux": {
+                "cwd": "${workspaceRoot}/cases/SAMUCA", // Same as win
+                "args": [""],                           // No args [ARRAY]
+                "miDebuggerPath": "/usr/bin/gdb",       // Set Debugger path    
+            },            
+            "program": "${workspaceRoot}/build/bin/swap_samuca_v1.exe",    // Update accordingly
+            "MIMode": "gdb",
+            "type": "cppdbg",
+            "request": "launch",
+            "stopAtEntry": false,
+            "externalConsole": true,
+            "preLaunchTask": "SWAP-SAMUCA: Build DEBUG"
+        }
+    ]
+}

@@ -1,0 +1,146 @@
+{
+    //Integrate with External Tools via Tasks
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "SWAP-SAMUCA: Run (without debugging)",
+            "options": {
+                "cwd": "${workspaceRoot}/cases/SAMUCA"
+            },
+            "args": [
+                ""
+            ],
+            "command": "${workspaceRoot}/build/bin/swap_samuca_v1.exe",
+            "type": "shell"
+        },
+        {
+            "label": "SWAP-SAMUCA: CMake DEBUG",
+            "windows": {
+                "args": [
+                    "-G",
+                    "MinGW Makefiles",
+                    "-DCMAKE_BUILD_TYPE=DEBUG",
+                    "${workspaceRoot}"
+                ]
+            },
+            "osx": {
+                "args": [
+                    "-G",
+                    "Unix Makefiles",
+                    "-DCMAKE_BUILD_TYPE=DEBUG",
+                    "${workspaceRoot}"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "-G",
+                    "Unix Makefiles",
+                    "-DCMAKE_BUILD_TYPE=DEBUG",
+                    "${workspaceRoot}"
+                ]
+            },
+            "command": "cmake",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "type": "shell",
+            "dependsOn": "SWAP-SAMUCA: create build dir",
+            "problemMatcher": []
+        },
+        {
+            "label": "SWAP-SAMUCA: CMake RELEASE",
+            "windows": {
+                "args": [
+                    "-G",
+                    "MinGW Makefiles",
+                    "-DCMAKE_BUILD_TYPE=RELEASE",
+                    "${workspaceRoot}"
+                ]
+            },
+            "osx": {
+                "args": [
+                    "-G",
+                    "Unix Makefiles",
+                    "-DCMAKE_BUILD_TYPE=RELEASE",
+                    "${workspaceRoot}"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "-G",
+                    "Unix Makefiles",
+                    "-DCMAKE_BUILD_TYPE=RELEASE",
+                    "${workspaceRoot}"
+                ]
+            },
+            "command": "cmake",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "type": "shell",
+            "dependsOn": "SWAP-SAMUCA: create build dir",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "SWAP-SAMUCA: Build DEBUG",
+            "windows": {
+                "command": "mingw32-make.exe"
+            },
+            "osx": {
+                "command": "make"
+            },
+            "linux": {
+                "command": "make"
+            },
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "type": "shell",
+            "dependsOn": "SWAP-SAMUCA: CMake DEBUG",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "SWAP-SAMUCA: Build RELEASE",
+            "windows": {
+                "command": "mingw32-make.exe"
+            },
+            "osx": {
+                "command": "make"
+            },
+            "linux": {
+                "command": "make"
+            },
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "type": "shell",
+            "dependsOn": "SWAP-SAMUCA: CMake RELEASE"
+        },
+        {
+            "label": "SWAP-SAMUCA: clean",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "command": "cmake -P distclean.cmake"
+        },
+        {
+            "label": "SWAP-SAMUCA: create build dir",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-E",
+                "make_directory",
+                "build"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-﻿    subroutine Samuca(task)
+subroutine Samuca(task)
 
     use Variables
     use var_samuca
@@ -10,59 +10,60 @@
     integer     icrop_end
     integer     i
 
-    integer		task                                  ! Controler of call ordering from the main program
-    integer		method_ws                             ! Water Stress Method:  1 = linear response; 2 = asymptote response
-    integer		method_pop                            ! Tillering Method:     1 = Cdays; 2 = Cdays + Light Transmission; 3 = Source-Sink
-    integer		nseason                               !
-    integer		atln                                  !
-    integer		atln_now                              !
-    integer		dn_lf_alive_dewlap                    !
-    integer		ghour                                 !
-    integer		glai                                  !
-    integer		maxdgl                                !
-    integer		maxgl                                 !
-    integer		n_it                                  !
-    integer		n_it_ag                               !
-    integer		n_it_bg                               !
-    integer		n_lf                                  !
-    integer		n_lf_ag                               !
-    integer		n_lf_ag_dewlap                        !
-    integer		n_lf_alive                            !
-    integer		n_lf_alive_ag                         !
-    integer		n_lf_alive_bg                         !
-    integer		n_lf_alive_dewlap                     !
-    integer		n_lf_alive_juveni                     !
-    integer		n_lf_alive_juveni_ag                  !
-    integer		n_lf_alive_juveni_bg                  !
-    integer		n_lf_bg                               !
-    integer		n_lf_dead                             !
-    integer		n_lf_dead_ag                          !
-    integer		n_lf_dead_bg                          !
-    integer		n_lf_it_form                          !
-    integer		n_lf_when_stk_emerg                   !
-    integer		n_ph                                  !
-    integer		n_ph_ag                               !
-    integer		n_ph_bg                               !
-    integer		nphy_bground                          !
-    integer		nsublay_cm                            !
-    integer		phy                                   !
-    integer		pos_it_bg                             !
-    integer		sl                                    !
+    integer     task                                  ! Controler of call ordering from the main program
+
+    integer     method_ws                             ! Water Stress Method:  1 = linear response; 2 = asymptote response
+    integer     method_pop                            ! Tillering Method:     1 = Cdays; 2 = Cdays + Light Transmission; 3 = Source-Sink
+    integer     nseason                               !
+    integer     atln                                  !
+    integer     atln_now                              !
+    integer     dn_lf_alive_dewlap                    !
+    integer     ghour                                 !
+    integer     glai                                  !
+    integer     maxdgl                                !
+    integer     maxgl                                 !
+    integer     n_it                                  !
+    integer     n_it_ag                               !
+    integer     n_it_bg                               !
+    integer     n_lf                                  !
+    integer     n_lf_ag                               !
+    integer     n_lf_ag_dewlap                        !
+    integer     n_lf_alive                            !
+    integer     n_lf_alive_ag                         !
+    integer     n_lf_alive_bg                         !
+    integer     n_lf_alive_dewlap                     !
+    integer     n_lf_alive_juveni                     !
+    integer     n_lf_alive_juveni_ag                  !
+    integer     n_lf_alive_juveni_bg                  !
+    integer     n_lf_bg                               !
+    integer     n_lf_dead                             !
+    integer     n_lf_dead_ag                          !
+    integer     n_lf_dead_bg                          !
+    integer     n_lf_it_form                          !
+    integer     n_lf_when_stk_emerg                   !
+    integer     n_ph                                  !
+    integer     n_ph_ag                               !
+    integer     n_ph_bg                               !
+    integer     nphy_bground                          !
+    integer     nsublay_cm                            !
+    integer     phy                                   !
+    integer     pos_it_bg                             !
+    integer     sl                                    !
     integer     sub_sl                                !
     integer     n_sub_sl                              !
-    integer		tl                                    !
-    logical		fl_potential                          !
-    logical		fl_appear_leaf                        !
-    logical		fl_hasleaf                            !
-    logical		fl_it_visible                         !
-    logical		fl_lf_ag_phy                          !
-    logical		fl_shed_leaf                          !
-    logical		fl_stalk_emerged                      !
-    logical		fl_tiller_decrease                    !
-    logical		fl_tiller_increase                    !
-    logical		fl_tiller_peaked                      !
-    logical		fl_tiller_stop                        !
-    logical		fl_use_reserves                       !
+    integer     tl                                    !
+    logical     fl_potential                          !
+    logical     fl_appear_leaf                        !
+    logical     fl_hasleaf                            !
+    logical     fl_it_visible                         !
+    logical     fl_lf_ag_phy                          !
+    logical     fl_shed_leaf                          !
+    logical     fl_stalk_emerged                      !
+    logical     fl_tiller_decrease                    !
+    logical     fl_tiller_increase                    !
+    logical     fl_tiller_peaked                      !
+    logical     fl_tiller_stop                        !
+    logical     fl_use_reserves                       !
     real        agefactor_fac_amax                    !
     real        agefactor_fac_rue                     !
     real        agefactor_fac_per                     !
@@ -75,394 +76,394 @@
     real        nstalks_planting                      !
     real        ini_nstk                              !
     real        tilleragefac                          !
-    real		initcropdepth                         !
-    real		init_plantdepth_ratoon                !
-    real		dw_rt                                 !
-    real		max_rt_dw                             !
-    real		dw_it_bg                              !
-    real		str_it_bg                             !
-    real		sug_it_bg                             !
-    real		suc_it_bg                             !
-    real		hex_it_bg                             !
-    real		dw_it                                 !
-    real		ini_dw_rt                             !
-    real		rootleftfrac                          !
-    real		dw_total                              !
-    real		age_it_phy                            !
-    real		age_lf_phy                            !
-    real		agefactor_amax                        !
-    real		agefactor_per                         !
-    real		agefactor_rue                         !
-    real		amax_conv                             !
-    real		amax_mod                              !
-    real		amax_out                              !
-    real		amaxfbfac                             !
-    real		avail_subs_crop                       !
-    real		c_check_tol                           !
-    real		c_scattering                          !
-    real		can_ipar                              !
-    real		chudec_lt                             !
-    real		chumat_lt                             !
-    real		co2_pho_res_end                       !
-    real		co2_pho_res_ini                       !
-    real		cr_source_sink_ratio                  !
-    real		cr_source_sink_ratio_ruse             !
-    real		dage_it_phy                           !
-    real		dage_lf_phy                           !
-    real		ddw_it                                !
-    real		ddw_it_ag                             !
-    real		ddw_it_ag_dead                        !
-    real		ddw_it_bg                             !
-    real		ddw_it_bg_dead                        !
-    real		ddw_it_dead                           !
-    real		ddw_it_phy_growth                     !
-    real		ddw_it_phy_reserves                   !
-    real		ddw_lf                                !
-    real		ddw_lf_ag                             !
-    real		ddw_lf_appear                         !
-    real		ddw_lf_bg                             !
-    real		ddw_lf_dead                           !
-    real		ddw_lf_shed                           !
-    real		ddw_rt                                !
-    real		ddw_rt_dead                           !
-    real		dead_lai                              !
-    real		diac_at_emergence                     !
-    real		diacem                                !
-    real		diacsoil                              !
-    real		diacsoilem                            !
-    real		diair                                 !
-    real		diam_stk                              !
-    real		diphy                                 !
-    real		disoil                                !
-    real		dla_gain_ref_till                     !
-    real		dla_phy                               !
-    real		dlai_dead                             !
-    real		dlai_gain                             !
-    real		dlai_gain_appear                      !
-    real		dlai_shed                             !
-    real		dnstk                                 !
-    real		dnstk_dead_rate                       !
-    real		dphy_stimuli                          !
-    real		dr_itss                               !
-    real		dr_lfss                               !
-    real		dr_rtss                               !
-    real		drdepth                               !
-    real		dshootext_bg                          !
-    real		dshootext_bg_rate                     !
-    real		dstr_it_ag                            !
-    real		dstr_it_ag_dead                       !
-    real		dstr_it_bg                            !
-    real		dstr_it_bg_dead                       !
-    real		dstr_it_phy                           !
-    real		dstr_it_phy_growth                    !
-    real		dsubsres                              !
-    real		dsubsres_it                           !
-    real		dsubsres_lf                           !
-    real		dsubsres_ratio                        !
-    real		dsubsres_rt                           !
-    real		dsug_corr_fac_ag                      !
-    real		dsug_corr_fac_bg                      !
-    real		dsug_it_ag                            !
-    real		dsug_it_ag_dead                       !
-    real		dsug_it_bg                            !
-    real		dsug_it_bg_dead                       !
-    real		dsug_it_phy                           !
-    real		dsug_it_phy_growth                    !
-    real		dsug_it_phy_reserves                  !
-    real		dswat_ddws                            !
-    real		dswat_dsuc                            !
-    real		dtcrss                                !
-    real		dtg                                   !
-    real		dtg_avail_it                          !
-    real		dtg_avail_it_ag                       !
-    real		dtg_avail_it_ag_ref_till              !
-    real		dtg_avail_it_bg                       !
-    real		dtg_avail_it_bg_ref_till              !
-    real		dtg_avail_it_phy                      !
-    real		dtg_avail_it_ref_till                 !
-    real		dtg_avail_lf                          !
-    real		dtg_avail_lf_phy                      !
-    real		dtg_avail_lf_ref_till                 !
-    real		dtg_avail_rt                          !
-    real		dtitss                                !
-    real		dtitss_ag                             !
-    real		dtitss_ag_ref_till                    !
-    real		dtitss_bg                             !
-    real		dtitss_bg_ref_till                    !
-    real		dtitss_phy                            !
-    real		dtitss_ref_till                       !
-    real		dtlfss                                !
-    real		dtlfss_phy                            !
-    real		dtlfss_ref_till                       !
-    real		dtot_str_dw_ref_till                  !
-    real		dtrtss                                !
-    real		dw_aerial                             !
-    real		dw_it_phy                             !
-    real		dw_lf                                 !
-    real		dw_lf_ag                              !
-    real		dw_lf_bg                              !
-    real		dw_lf_phy                             !
-    real		dw_lf_shed_phy                        !
-    real		dw_ss_it                              !
-    real		dw_ss_it_phy                          !
-    real		dw_ss_lf                              !
-    real		dw_ss_lf_phy                          !
-    real		dw_ss_rt                              !
-    real		dwat_it_ag                            !
-    real		dwat_it_ag_dead                       !
-    real		eff_conv                              !
-    real		eff_mod                               !
-    real		eff_out                               !
-    real		effective_rd                          !
-    real		end_tt_it_growth                      !
-    real		end_tt_lf_growth                      !
-    real		end_tt_rt_growth                      !
-    real		exc_dtg_it                            !
-    real		exc_dtg_lf                            !
-    real		exc_dtg_rt                            !
-    real		fdeadlf                               !
-    real		frac_ag                               !
-    real		frac_bg                               !
-    real		frac_hex_bg                           !
-    real		frac_li                               !
-    real		frac_suc_bg                           !
-    real		fw_it_ag                              !
-    real		gresp                                 !
-    real		gresp_it                              !
-    real		gresp_it_phy                          !
-    real		gresp_lf                              !
-    real		gresp_lf_phy                          !
-    real		gresp_rt                              !
-    real		hex_it_ag                             !
-    real		hex_it_ag_ref_till                    !
-    real		hex_it_bg_ref_till                    !
-    real		hex_it_phy                            !
-    real		hex_min                               !
-    real		hour                                  !
-    real		ini_dw_lf_phy                         !
-    real		ini_la                                !
-    real		init_leaf_area                        !
-    real		it_struc_pfac                         !
-    real		it_struc_pfac_delta                   !
-    real		it_struc_pfac_max                     !
-    real		it_struc_pfac_min                     !
-    real		it_struc_pfac_rate                    !
-    real		it_struc_pfac_tb                      !
-    real		it_struc_pfac_te                      !
-    real		it_struc_pfac_temp_max_red            !
-    real		it_struc_pfac_tm                      !
-    real		it_struc_pfac_wate_max_red            !
-    real		it_struc_tb_end                       !
-    real		it_struc_tb_ini                       !
-    real		it_struc_to1                          !
-    real		it_struc_to2                          !
-    real		k_can                                 !
-    real		kmr_it_phy                            !
-    real		kmr_leaf                              !
-    real		kmr_root                              !
-    real		kmr_stem                              !
-    real		kmr_stor                              !
-    real		la_lf_shed_phy                        !
-    real		lai_ass                               !
-    real		laimod                                !
-    real		lf_dpos                               !
-    real		lgpf                                  !
-    real		lt                                    !
-    real		ltthreshold                           !
-    real		maintenance_factor_crop               !
-    real		maintenance_factor_it                 !
-    real		maintenance_factor_it_ag              !
-    real		maintenance_factor_it_bg              !
-    real		maintenance_factor_it_phy             !
-    real		maintenance_factor_lf                 !
-    real		maintenance_factor_lf_phy             !
-    real		maintenance_factor_rt                 !
-    real		max_ini_la                            !
-    real		max_it_dw                             !
-    real		max_it_dw_bg                          !
-    real		max_it_dw_phy                         !
-    real		max_per_it                            !
-    real		mid_tt_it_growth                      !
-    real		mid_tt_lf_growth                      !
-    real		mid_tt_rt_growth                      !
-    real		mresp_it                              !
-    real		mresp_it_phy                          !
-    real		mresp_lf                              !
-    real		mresp_lf_phy                          !
-    real		mresp_rt                              !
-    real		n_lf_max_ini_la                       !
-    real		n_lf_tiller                           !
-    real		nsenesleaf_effect                     !
-    real		nstk_at_appearance                    !
-    real		nstk_now                              !
-    real		par_rad                               !
-    real		per                                   !
-    real		per_hour                              !
-    real		per_it_phy                            !
-    real		pho_fac_co2                           !
-    real		phy_stimuli                           !
-    real		phyllochron                           !
-    real		plastochron                           !
-    real		poppeak_lt                            !
-    real		q10_it_phy                            !
-    real		q10_leaf                              !
-!    real		q10_root                              !
-    real		q10_stem                              !
-    real		q10_stor                              !
-    real		rdprof                                !
-    real		reduc_growth_factor_crop              !
-    real		reduc_growth_factor_it                !
-    real		reduc_growth_factor_it_ag             !
-    real		reduc_growth_factor_it_bg             !
-    real		reduc_growth_factor_it_phy            !
-    real		reduc_growth_factor_lf                !
-    real		reduc_growth_factor_lf_phy            !
-    real		reduc_growth_factor_rt                !
-    real		rel_ss_it_phy                         !
-    real		rel_ss_lf_phy                         !
-    real		res_used_emerg                        !
-    real		res_used_emerg_fac                    !
-    real		reserves_used_growth_it               !
-    real		reserves_used_growth_lf               !
-    real		reserves_used_growth_rt               !
-    real		reserves_used_mresp_crop              !
-    real		reserves_used_mresp_it                !
-    real		reserves_used_mresp_it_ag             !
-    real		reserves_used_mresp_it_bg             !
-    real		reserves_used_mresp_it_phy            !
-    real		reserves_used_mresp_lf                !
-    real		reserves_used_mresp_lf_phy            !
-    real		reserves_used_mresp_rt                !
-    real		rgpf                                  !
-    real		root_front_size                       !
-    real		rootdrate                             !
-    real		rootshape                             !
-    real		rpup                                  !
-    real		rue_mod                               !
-    real		shared_it_str_bg                      !
-    real		shared_it_sug_bg                      !
-    real		shootdepth                            !
-    real		soiltemperature                       !
-    real		srlmax                                !
-    real		srlmin                                !
-    real		stk_h                                 !
-    real		str_it_ag                             !
-    real		str_it_phy                            !
-    real		subs_avail_growth_crop                !
-    real		subs_avail_growth_it                  !
-    real		subs_avail_growth_it_ag               !
-    real		subs_avail_growth_it_ag_ref_till      !
-    real		subs_avail_growth_it_bg               !
-    real		subs_avail_growth_it_bg_ref_till      !
-    real		subs_avail_growth_it_phy              !
-    real		subs_avail_growth_it_ref_till         !
-    real		subs_avail_growth_lf                  !
-    real		subs_avail_growth_lf_phy              !
-    real		subs_avail_growth_lf_ref_till         !
-    real		subs_avail_growth_rt                  !
-    real		subsres                               !
-    real		subsres_avail_it                      !
-    real		subsres_avail_it_ag                   !
-    real		subsres_avail_it_ag_ref_till          !
-    real		subsres_avail_it_bg                   !
-    real		subsres_avail_it_bg_ref_till          !
-    real		subsres_avail_it_phy                  !
-    real		subsres_avail_it_ref_till             !
-    real		subsres_avail_lf                      !
-    real		subsres_avail_lf_phy                  !
-    real		subsres_avail_lf_ref_till             !
-    real		subsres_avail_rt                      !
-    real		suc_acc_ini                           !
-    real		suc_frac_rate_ts                      !
-    real		suc_it_ag                             !
-    real		suc_it_ag_ref_till                    !
-    real		suc_it_bg_ref_till                    !
-    real		suc_it_phy                            !
-    real		suc_min                               !
-    real		sug_cont                              !
-    real		sug_it_ag                             !
-    real		sug_it_phy                            !
-    real		sup_ratio_it                          !
-    real		sup_ratio_it_ag                       !
-    real		sup_ratio_it_bg                       !
-    real		sup_ratio_it_phy                      !
-    real		sup_ratio_lf                          !
-    real		sup_ratio_lf_phy                      !
-    real		sup_ratio_rt                          !
-    real		supply_rate_it                        !
-    real		supply_rate_it_ag                     !
-    real		supply_rate_it_bg                     !
-    real		supply_rate_it_phy                    !
-    real		supply_rate_lf                        !
-    real		supply_rate_lf_phy                    !
-    real		supply_rate_rt                        !
-    real		supply_used_crop                      !
-    real		supply_used_dw_crop                   !
-    real		supply_used_dw_it                     !
-    real		supply_used_dw_it_ag                  !
-    real		supply_used_dw_it_bg                  !
-    real		supply_used_dw_it_phy                 !
-    real		supply_used_dw_lf                     !
-    real		supply_used_dw_lf_phy                 !
-    real		supply_used_dw_rt                     !
-    real		supply_used_gresp_crop                !
-    real		supply_used_gresp_it                  !
-    real		supply_used_gresp_it_ag               !
-    real		supply_used_gresp_it_bg               !
-    real		supply_used_gresp_it_phy              !
-    real		supply_used_gresp_lf                  !
-    real		supply_used_gresp_lf_phy              !
-    real		supply_used_gresp_rt                  !
-    real		supply_used_it                        !
-    real		supply_used_it_ag                     !
-    real		supply_used_it_bg                     !
-    real		supply_used_it_phy                    !
-    real		supply_used_lf                        !
-    real		supply_used_lf_phy                    !
-    real		supply_used_mresp_crop                !
-    real		supply_used_mresp_it                  !
-    real		supply_used_mresp_it_ag               !
-    real		supply_used_mresp_it_bg               !
-    real		supply_used_mresp_it_phy              !
-    real		supply_used_mresp_lf                  !
-    real		supply_used_mresp_lf_phy              !
-    real		supply_used_mresp_rt                  !
-    real		supply_used_rt                        !
-    real		t_mresp                               !
-    real		tb0pho                                !
-    real		tb1pho                                !
-    real		tb2pho                                !
-    real		tbfpho                                !
-    real		tbmax_per                             !
-    real		temperature_factor                    !
-    real		tempfac_per                           !
-    real		tempfac_pho                           !
-    real		tilleragefac_adjust                   !
-    real		tillochron                            !
-    real		tot_dw_ss_crop                        !
-    real		tot_dw_ss_it                          !
-    real		tot_dw_ss_it_ag                       !
-    real		tot_dw_ss_it_bg                       !
-    real		tot_dw_ss_lf                          !
-    real		tot_dw_ss_rt                          !
-    real		tot_gresp_crop                        !
-    real		tot_gresp_it                          !
-    real		tot_gresp_it_ag                       !
-    real		tot_gresp_it_bg                       !
-    real		tot_gresp_lf                          !
-    real		tot_gresp_rt                          !
-    real		tot_mresp_crop                        !
-    real		tot_mresp_it                          !
-    real		tot_mresp_it_ag                       !
-    real		tot_mresp_it_bg                       !
-    real		tot_mresp_lf                          !
-    real		tot_mresp_rt                          !
-    real		tref_mr                               !
-    real		tref_mr_it_phy                        !
-    real		ts_it_phy                             !
-    real		tt_chumat_lt                          !
-    real		wat_con                               !
-    real		wat_it_ag                             !
+    real      initcropdepth                         !
+    real      init_plantdepth_ratoon                !
+    real      dw_rt                                 !
+    real      max_rt_dw                             !
+    real      dw_it_bg                              !
+    real      str_it_bg                             !
+    real      sug_it_bg                             !
+    real      suc_it_bg                             !
+    real      hex_it_bg                             !
+    real      dw_it                                 !
+    real      ini_dw_rt                             !
+    real      rootleftfrac                          !
+    real      dw_total                              !
+    real      age_it_phy                            !
+    real      age_lf_phy                            !
+    real      agefactor_amax                        !
+    real      agefactor_per                         !
+    real      agefactor_rue                         !
+    real      amax_conv                             !
+    real      amax_mod                              !
+    real      amax_out                              !
+    real      amaxfbfac                             !
+    real      avail_subs_crop                       !
+    real      c_check_tol                           !
+    real      c_scattering                          !
+    real      can_ipar                              !
+    real      chudec_lt                             !
+    real      chumat_lt                             !
+    real      co2_pho_res_end                       !
+    real      co2_pho_res_ini                       !
+    real      cr_source_sink_ratio                  !
+    real      cr_source_sink_ratio_ruse             !
+    real      dage_it_phy                           !
+    real      dage_lf_phy                           !
+    real      ddw_it                                !
+    real      ddw_it_ag                             !
+    real      ddw_it_ag_dead                        !
+    real      ddw_it_bg                             !
+    real      ddw_it_bg_dead                        !
+    real      ddw_it_dead                           !
+    real      ddw_it_phy_growth                     !
+    real      ddw_it_phy_reserves                   !
+    real      ddw_lf                                !
+    real      ddw_lf_ag                             !
+    real      ddw_lf_appear                         !
+    real      ddw_lf_bg                             !
+    real      ddw_lf_dead                           !
+    real      ddw_lf_shed                           !
+    real      ddw_rt                                !
+    real      ddw_rt_dead                           !
+    real      dead_lai                              !
+    real      diac_at_emergence                     !
+    real      diacem                                !
+    real      diacsoil                              !
+    real      diacsoilem                            !
+    real      diair                                 !
+    real      diam_stk                              !
+    real      diphy                                 !
+    real      disoil                                !
+    real      dla_gain_ref_till                     !
+    real      dla_phy                               !
+    real      dlai_dead                             !
+    real      dlai_gain                             !
+    real      dlai_gain_appear                      !
+    real      dlai_shed                             !
+    real      dnstk                                 !
+    real      dnstk_dead_rate                       !
+    real      dphy_stimuli                          !
+    real      dr_itss                               !
+    real      dr_lfss                               !
+    real      dr_rtss                               !
+    real      drdepth                               !
+    real      dshootext_bg                          !
+    real      dshootext_bg_rate                     !
+    real      dstr_it_ag                            !
+    real      dstr_it_ag_dead                       !
+    real        dstr_it_bg                            !
+    real        dstr_it_bg_dead                       !
+    real        dstr_it_phy                           !
+    real        dstr_it_phy_growth                    !
+    real        dsubsres                              !
+    real        dsubsres_it                           !
+    real        dsubsres_lf                           !
+    real        dsubsres_ratio                        !
+    real        dsubsres_rt                           !
+    real        dsug_corr_fac_ag                      !
+    real        dsug_corr_fac_bg                      !
+    real        dsug_it_ag                            !
+    real        dsug_it_ag_dead                       !
+    real        dsug_it_bg                            !
+    real        dsug_it_bg_dead                       !
+    real        dsug_it_phy                           !
+    real        dsug_it_phy_growth                    !
+    real        dsug_it_phy_reserves                  !
+    real        dswat_ddws                            !
+    real        dswat_dsuc                            !
+    real        dtcrss                                !
+    real        dtg                                   !
+    real        dtg_avail_it                          !
+    real        dtg_avail_it_ag                       !
+    real        dtg_avail_it_ag_ref_till              !
+    real        dtg_avail_it_bg                       !
+    real        dtg_avail_it_bg_ref_till              !
+    real        dtg_avail_it_phy                      !
+    real        dtg_avail_it_ref_till                 !
+    real        dtg_avail_lf                          !
+    real        dtg_avail_lf_phy                      !
+    real        dtg_avail_lf_ref_till                 !
+    real        dtg_avail_rt                          !
+    real        dtitss                                !
+    real        dtitss_ag                             !
+    real        dtitss_ag_ref_till                    !
+    real        dtitss_bg                             !
+    real        dtitss_bg_ref_till                    !
+    real        dtitss_phy                            !
+    real        dtitss_ref_till                       !
+    real        dtlfss                                !
+    real        dtlfss_phy                            !
+    real        dtlfss_ref_till                       !
+    real        dtot_str_dw_ref_till                  !
+    real        dtrtss                                !
+    real        dw_aerial                             !
+    real        dw_it_phy                             !
+    real        dw_lf                                 !
+    real        dw_lf_ag                              !
+    real        dw_lf_bg                              !
+    real        dw_lf_phy                             !
+    real        dw_lf_shed_phy                        !
+    real        dw_ss_it                              !
+    real        dw_ss_it_phy                          !
+    real        dw_ss_lf                              !
+    real        dw_ss_lf_phy                          !
+    real        dw_ss_rt                              !
+    real        dwat_it_ag                            !
+    real        dwat_it_ag_dead                       !
+    real        eff_conv                              !
+    real        eff_mod                               !
+    real        eff_out                               !
+    real        effective_rd                          !
+    real        end_tt_it_growth                      !
+    real        end_tt_lf_growth                      !
+    real        end_tt_rt_growth                      !
+    real        exc_dtg_it                            !
+    real        exc_dtg_lf                            !
+    real        exc_dtg_rt                            !
+    real        fdeadlf                               !
+    real        frac_ag                               !
+    real        frac_bg                               !
+    real        frac_hex_bg                           !
+    real        frac_li                               !
+    real        frac_suc_bg                           !
+    real        fw_it_ag                              !
+    real        gresp                                 !
+    real        gresp_it                              !
+    real        gresp_it_phy                          !
+    real        gresp_lf                              !
+    real        gresp_lf_phy                          !
+    real        gresp_rt                              !
+    real        hex_it_ag                             !
+    real        hex_it_ag_ref_till                    !
+    real        hex_it_bg_ref_till                    !
+    real        hex_it_phy                            !
+    real        hex_min                               !
+    real        hour                                  !
+    real        ini_dw_lf_phy                         !
+    real        ini_la                                !
+    real        init_leaf_area                        !
+    real        it_struc_pfac                         !
+    real        it_struc_pfac_delta                   !
+    real        it_struc_pfac_max                     !
+    real        it_struc_pfac_min                     !
+    real        it_struc_pfac_rate                    !
+    real        it_struc_pfac_tb                      !
+    real        it_struc_pfac_te                      !
+    real        it_struc_pfac_temp_max_red            !
+    real        it_struc_pfac_tm                      !
+    real        it_struc_pfac_wate_max_red            !
+    real        it_struc_tb_end                       !
+    real        it_struc_tb_ini                       !
+    real        it_struc_to1                          !
+    real        it_struc_to2                          !
+    real        k_can                                 !
+    real        kmr_it_phy                            !
+    real        kmr_leaf                              !
+    real        kmr_root                              !
+    real        kmr_stem                              !
+    real        kmr_stor                              !
+    real        la_lf_shed_phy                        !
+    real        lai_ass                               !
+    real        laimod                                !
+    real        lf_dpos                               !
+    real        lgpf                                  !
+    real        lt                                    !
+    real        ltthreshold                           !
+    real        maintenance_factor_crop               !
+    real        maintenance_factor_it                 !
+    real        maintenance_factor_it_ag              !
+    real        maintenance_factor_it_bg              !
+    real        maintenance_factor_it_phy             !
+    real        maintenance_factor_lf                 !
+    real        maintenance_factor_lf_phy             !
+    real        maintenance_factor_rt                 !
+    real        max_ini_la                            !
+    real        max_it_dw                             !
+    real        max_it_dw_bg                          !
+    real        max_it_dw_phy                         !
+    real        max_per_it                            !
+    real        mid_tt_it_growth                      !
+    real        mid_tt_lf_growth                      !
+    real        mid_tt_rt_growth                      !
+    real        mresp_it                              !
+    real        mresp_it_phy                          !
+    real        mresp_lf                              !
+    real        mresp_lf_phy                          !
+    real        mresp_rt                              !
+    real        n_lf_max_ini_la                       !
+    real        n_lf_tiller                           !
+    real        nsenesleaf_effect                     !
+    real        nstk_at_appearance                    !
+    real        nstk_now                              !
+    real        par_rad                               !
+    real        per                                   !
+    real        per_hour                              !
+    real        per_it_phy                            !
+    real        pho_fac_co2                           !
+    real        phy_stimuli                           !
+    real        phyllochron                           !
+    real        plastochron                           !
+    real        poppeak_lt                            !
+    real        q10_it_phy                            !
+    real        q10_leaf                              !
+!    real        q10_root                              !
+    real        q10_stem                              !
+    real        q10_stor                              !
+!    real        rdprof                                !
+    real        reduc_growth_factor_crop              !
+    real        reduc_growth_factor_it                !
+    real        reduc_growth_factor_it_ag             !
+    real        reduc_growth_factor_it_bg             !
+    real        reduc_growth_factor_it_phy            !
+    real        reduc_growth_factor_lf                !
+    real        reduc_growth_factor_lf_phy            !
+    real        reduc_growth_factor_rt                !
+    real        rel_ss_it_phy                         !
+    real        rel_ss_lf_phy                         !
+    real        res_used_emerg                        !
+    real        res_used_emerg_fac                    !
+    real        reserves_used_growth_it               !
+    real        reserves_used_growth_lf               !
+    real        reserves_used_growth_rt               !
+    real        reserves_used_mresp_crop              !
+    real        reserves_used_mresp_it                !
+    real        reserves_used_mresp_it_ag             !
+    real        reserves_used_mresp_it_bg             !
+    real        reserves_used_mresp_it_phy            !
+    real        reserves_used_mresp_lf                !
+    real        reserves_used_mresp_lf_phy            !
+    real        reserves_used_mresp_rt                !
+    real        rgpf                                  !
+    real        root_front_size                       !
+    real        rootdrate                             !
+    real        rootshape                             !
+    real        rpup                                  !
+    real        rue_mod                               !
+    real        shared_it_str_bg                      !
+    real        shared_it_sug_bg                      !
+    real        shootdepth                            !
+    real        soiltemperature                       !
+    real        srlmax                                !
+    real        srlmin                                !
+    real        stk_h                                 !
+    real        str_it_ag                             !
+    real        str_it_phy                            !
+    real        subs_avail_growth_crop                !
+    real        subs_avail_growth_it                  !
+    real        subs_avail_growth_it_ag               !
+    real        subs_avail_growth_it_ag_ref_till      !
+    real        subs_avail_growth_it_bg               !
+    real        subs_avail_growth_it_bg_ref_till      !
+    real        subs_avail_growth_it_phy              !
+    real        subs_avail_growth_it_ref_till         !
+    real        subs_avail_growth_lf                  !
+    real        subs_avail_growth_lf_phy              !
+    real        subs_avail_growth_lf_ref_till         !
+    real        subs_avail_growth_rt                  !
+    real        subsres                               !
+    real        subsres_avail_it                      !
+    real        subsres_avail_it_ag                   !
+    real        subsres_avail_it_ag_ref_till          !
+    real        subsres_avail_it_bg                   !
+    real        subsres_avail_it_bg_ref_till          !
+    real        subsres_avail_it_phy                  !
+    real        subsres_avail_it_ref_till             !
+    real        subsres_avail_lf                      !
+    real        subsres_avail_lf_phy                  !
+    real        subsres_avail_lf_ref_till             !
+    real        subsres_avail_rt                      !
+    real        suc_acc_ini                           !
+    real        suc_frac_rate_ts                      !
+    real        suc_it_ag                             !
+    real        suc_it_ag_ref_till                    !
+    real        suc_it_bg_ref_till                    !
+    real        suc_it_phy                            !
+    real        suc_min                               !
+    real        sug_cont                              !
+    real        sug_it_ag                             !
+    real        sug_it_phy                            !
+    real        sup_ratio_it                          !
+    real        sup_ratio_it_ag                       !
+    real        sup_ratio_it_bg                       !
+    real        sup_ratio_it_phy                      !
+    real        sup_ratio_lf                          !
+    real        sup_ratio_lf_phy                      !
+    real        sup_ratio_rt                          !
+    real        supply_rate_it                        !
+    real        supply_rate_it_ag                     !
+    real        supply_rate_it_bg                     !
+    real        supply_rate_it_phy                    !
+    real        supply_rate_lf                        !
+    real        supply_rate_lf_phy                    !
+    real        supply_rate_rt                        !
+    real        supply_used_crop                      !
+    real        supply_used_dw_crop                   !
+    real        supply_used_dw_it                     !
+    real        supply_used_dw_it_ag                  !
+    real        supply_used_dw_it_bg                  !
+    real        supply_used_dw_it_phy                 !
+    real        supply_used_dw_lf                     !
+    real        supply_used_dw_lf_phy                 !
+    real        supply_used_dw_rt                     !
+    real        supply_used_gresp_crop                !
+    real        supply_used_gresp_it                  !
+    real        supply_used_gresp_it_ag               !
+    real        supply_used_gresp_it_bg               !
+    real        supply_used_gresp_it_phy              !
+    real        supply_used_gresp_lf                  !
+    real        supply_used_gresp_lf_phy              !
+    real        supply_used_gresp_rt                  !
+    real        supply_used_it                        !
+    real        supply_used_it_ag                     !
+    real        supply_used_it_bg                     !
+    real        supply_used_it_phy                    !
+    real        supply_used_lf                        !
+    real        supply_used_lf_phy                    !
+    real        supply_used_mresp_crop                !
+    real        supply_used_mresp_it                  !
+    real        supply_used_mresp_it_ag               !
+    real        supply_used_mresp_it_bg               !
+    real        supply_used_mresp_it_phy              !
+    real        supply_used_mresp_lf                  !
+    real        supply_used_mresp_lf_phy              !
+    real        supply_used_mresp_rt                  !
+    real        supply_used_rt                        !
+    real        t_mresp                               !
+    real        tb0pho                                !
+    real        tb1pho                                !
+    real        tb2pho                                !
+    real        tbfpho                                !
+    real        tbmax_per                             !
+    real        temperature_factor                    !
+    real        tempfac_per                           !
+    real        tempfac_pho                           !
+    real        tilleragefac_adjust                   !
+    real        tillochron                            !
+    real        tot_dw_ss_crop                        !
+    real        tot_dw_ss_it                          !
+    real        tot_dw_ss_it_ag                       !
+    real        tot_dw_ss_it_bg                       !
+    real        tot_dw_ss_lf                          !
+    real        tot_dw_ss_rt                          !
+    real        tot_gresp_crop                        !
+    real        tot_gresp_it                          !
+    real        tot_gresp_it_ag                       !
+    real        tot_gresp_it_bg                       !
+    real        tot_gresp_lf                          !
+    real        tot_gresp_rt                          !
+    real        tot_mresp_crop                        !
+    real        tot_mresp_it                          !
+    real        tot_mresp_it_ag                       !
+    real        tot_mresp_it_bg                       !
+    real        tot_mresp_lf                          !
+    real        tot_mresp_rt                          !
+    real        tref_mr                               !
+    real        tref_mr_it_phy                        !
+    real        ts_it_phy                             !
+    real        tt_chumat_lt                          !
+    real        wat_con                               !
+    real        wat_it_ag                             !
 
     !--- Crop parameters
     real        amax
@@ -479,35 +480,35 @@
     real        chudec
     real        chumat
     real        popmat
-    real		POPPEAK
-    real*8		SLA_SAM ! MODIFIED TO SLA_SAM TO AVOID CONFLICT WITH 'use variables' statement
-    real		RDM
-    real		DPERCOEFF
-    real		MLA
-    real		KC_MIN
-    real		EORATIO
-    real		RWUEP1
-    real		RWUEP2
-    real		T_MAX_WS_PHO
-    real		T_MID_WS_PHO
-    real		T_MIN_WS_PHO
-    real		T_MAX_WS_EXP
-    real		T_MID_WS_EXP
-    real		T_MIN_WS_EXP
-    real		MAXLAI_EO
-    real		TBM
-    real		THRESHEWS
-    real		SWCON1
-    real		SWCON2
-    real		SWCON3
-    real		RWUMAX
-    real		PORMIN
-    real		T_MAX_WS_FPF
-    real		T_MID_WS_FPF
-    real		T_MIN_WS_FPF
-    real		T_MAX_WS_TIL
-    real		T_MID_WS_TIL
-    real	    T_MIN_WS_TIL
+    real        POPPEAK
+    real*8      SLA_SAM ! MODIFIED TO SLA_SAM TO AVOID CONFLICT WITH 'use variables' statement
+    real        RDM
+    real        DPERCOEFF
+    real        MLA
+    real        KC_MIN
+    real        EORATIO
+    real        RWUEP1
+    real        RWUEP2
+    real        T_MAX_WS_PHO
+    real        T_MID_WS_PHO
+    real        T_MIN_WS_PHO
+    real        T_MAX_WS_EXP
+    real        T_MID_WS_EXP
+    real        T_MIN_WS_EXP
+    real        MAXLAI_EO
+    real        TBM
+    real        THRESHEWS
+    real        SWCON1
+    real        SWCON2
+    real        SWCON3
+    real        RWUMAX
+    real        PORMIN
+    real        T_MAX_WS_FPF
+    real        T_MID_WS_FPF
+    real        T_MIN_WS_FPF
+    real        T_MAX_WS_TIL
+    real        T_MID_WS_TIL
+    real        T_MIN_WS_TIL
     !logical     POTENTIAL_GROWTH
     !integer     TILLERMET
     !real 	    ROWSP
@@ -525,37 +526,37 @@
     real        UPPER(maho)
     real        RLD(maho)
     !logical 	USETSOIL
-    real 		TRWUP
-    real 		TMIN
-    real 		TMAX
-    real 		THOUR(24)
-    real 		SWFACT
-    real 		SWFACP
-    real 		SWFACF
-    real 		SWFACE
+    real        TRWUP
+    real        TMIN
+    real        TMAX
+    real        THOUR(24)
+    real        SWFACT
+    real        SWFACP
+    real        SWFACF
+    real        SWFACE
     !real 		SRAD*8
-    integer 	NDWS
-    integer 	NDEWS
+    integer     NDWS
+    integer     NDEWS
     !logical 	MULCHEFFECT
     !integer 	METPG
-    real 		LI
-    real 		LAT_SIM
-    real 		EOP
-    real 		DTGA
-    integer 	DOY
-    real 		DILEAF
-    real 		DI
+    real        LI
+    real        LAT_SIM
+    real        EOP
+    real        DTGA
+    integer     DOY
+    real        DILEAF
+    real        DI
     !real 		CO2
-    integer  	YEAR
-    logical  	WRITEACTOUT
-    integer  	WARN
-    real  		TRASW
-    real  		RESP
-    real  		POL
-    integer  	OUTDPP
-    real  		KC
-    integer  	DAS
-    integer  	DAP
+    integer     YEAR
+    logical     WRITEACTOUT
+    integer     WARN
+    real        TRASW
+    real        RESP
+    real        POL
+    integer     OUTDPP
+    real        KC
+    integer     DAS
+    integer     DAP
     !real*8      dso
     !real*8      dsinbe
     !real*8      dsinb
@@ -591,45 +592,45 @@
     integer     cumdenstb                                       ! Flag to use RDCTB to scale cumdens (cumdenstb=1) or SAMUCA's root length density (cumdenstb=0)
 
 
-    character 	(len = 6)	pltype          				    !  Planting type (Ratoon or PlCane)
-    character 	(len = 6)	cropstatus          			    !  Dead or Alive
-    character 	(len = 6)	cropdstage          			    !  Development Stage - Only Sprout or Emergd
+    character (len = 6) pltype                              !  Planting type (Ratoon or PlCane)
+    character (len = 6) cropstatus                          !  Dead or Alive
+    character (len = 6) cropdstage                          !  Development Stage - Only Sprout or Emergd
 
     !--- Arrays Variables
-    real		phprof(100,60)                                  ! Phytomer profile and attributes dimensions
-    real		drld_sl(maho)                                 !
-    real		dw_rt_sl(maho)                                !
-    real		ddw_rt_sl(maho)                               !
-    real		srl_prof(1000)                                  !
-    real		ddw_rt_prof(1000)                               !
-    real		drld_prof(1000)                                 !
-    real		geot(maho)                                    !
-    real		rootprof(1000)                                  ! Root profile (index = cm comparment)    Up to 10 meters
-    real		dw_rt_prof(maho)                              !
-    real		tillerageprof(100,2)                            !
-    real		tempfac_h_per(24)                               ! 24 hours
-    real		Acanopy(3+1,5+1)                                ! Instantaneous CO2 Assimilation Rate at three hours and five canopy depth in kg(CO2) ha-1(leaf) h-1
-    real		Qleaf(3+1,5+1)                                  ! Instantaneous par absorbed by leaves at three hours and five canopy depth in W m-2
-    real		incpar(3,4)                                     ! Incoming direct, difuse and total par radiation above canopy in three hours W m-2
-    real		photo_layer_act(3)                              ! Actual Total Daily Photosynthesis per canopy Layer
-    real		rgf(maho+1,3)                                 !
-    real		lroot(maho)                                   !
-    real		dlroot(maho)                                  !
-    real		drld(maho)                                    !
-    real		drld_dead(maho)                               !
-    real*8      relative_rld(maho)
-    logical		fl_it_AG(100)                                   ! Above Ground Internode Flag
-    logical		fl_lf_AG(100)                                   ! Above Ground Leaf Flag
-    logical		fl_lf_alive(100)
+    real        phprof(100,60)                                  ! Phytomer profile and attributes dimensions
+    real        drld_sl(maho)                                 !
+    real        dw_rt_sl(maho)                                !
+    real        ddw_rt_sl(maho)                               !
+    real        srl_prof(1000)                                  !
+    real        ddw_rt_prof(1000)                               !
+    real        drld_prof(1000)                                 !
+    real        geot(maho)                                    !
+    real        rootprof(1000)                                  ! Root profile (index = cm comparment)    Up to 10 meters
+    real        dw_rt_prof(maho)                              !
+    real        tillerageprof(100,2)                            !
+    real        tempfac_h_per(24)                               ! 24 hours
+    real        Acanopy(3+1,5+1)                                ! Instantaneous CO2 Assimilation Rate at three hours and five canopy depth in kg(CO2) ha-1(leaf) h-1
+    real        Qleaf(3+1,5+1)                                  ! Instantaneous par absorbed by leaves at three hours and five canopy depth in W m-2
+    real        incpar(3,4)                                     ! Incoming direct, difuse and total par radiation above canopy in three hours W m-2
+    real        photo_layer_act(3)                              ! Actual Total Daily Photosynthesis per canopy Layer
+    real        rgf(maho+1,3)                                 !
+    real        lroot(maho)                                   !
+    real        dlroot(maho)                                  !
+    real        drld(maho)                                    !
+    real        drld_dead(maho)                               !
+    real*8      elative_rld(maho)
+    logical     fl_it_AG(100)                                   ! Above Ground Internode Flag
+    logical     fl_lf_AG(100)                                   ! Above Ground Leaf Flag
+    logical     fl_lf_alive(100)
 
     real        array_deb(MAHO)
     real*8      dsinbe_sam
 
     !--- Real Functions
-    real*8		afgen                                           ! Interpolation function (The Fortran Simulation Translator, FST version 2.0)
-    real		fgrowth                                         ! Flexible growth function
-    real		asy_ws                                          ! Flexible function for water stress response
-    real		tiller_senes                                    ! Tiller senescence function
+    real*8      afgen                                           ! Interpolation function (The Fortran Simulation Translator, FST version 2.0)
+    real        fgrowth                                         ! Flexible growth function
+    real        asy_ws                                          ! Flexible function for water stress response
+    real        tiller_senes                                    ! Tiller senescence function
     
     real top_dummy, bot_dummy
 
@@ -917,8 +918,8 @@
     co2_pho_res_ini =   0.d0
 
     !--- retrieve soil vertical discretization from 'Swap.swp'
-    slthickness = hsublay(1:numlay)
     do sl = 1, numlay
+        slthickness = hsublay(sl)
         if (sl == 1)then
             dep(sl) = slthickness(sl)
         else
@@ -1059,7 +1060,7 @@
 
             !--- root profile 
             srl  = srlmin
-            
+
             !--- get drld
             ddw_rt = dw_rt
             call root_growth_factor(cumdenstb, ddw_rt,              &
@@ -3925,252 +3926,4 @@
 
     return
 
-    end subroutine Samuca
-
-    !************************************************************************
-
-! ----------------------------------------------------------------------
-      subroutine astro_sam &
-     &   (logf,swscre,daynr,lat,dayl,daylp,sinld,cosld,dsinb,dsinbe_sam,dso)
-! ----------------------------------------------------------------------
-! Subroutine astro (daynr,lat,dayl,daylp,sinld,cosld)
-! Authors: this routine Astro is based on Sastro (Daniel van Kraalingen)
-! Date   : 28-November-2005 
-! Purpose: This subroutine calculates solar constant, daily
-!          extraterrestrial radiation, daylength and some intermediate
-!          variables required by other routines. The routine has been
-!          rewritten such that latitudes from pole to pole can be used.
-!
-! Formal parameters:  (I=input,O=output,C=control,IN=init,T=time)
-! name   type meaning                                     units  class
-! ----   ---- -------                                     -----  -----
-! logf    I4  Internal number of logbook output file *.LOG   -      I
-! swscre  I4  Switch of screen display:  0 = no display;     -      I
-!             1 = summary water balance; 2 = daynumber
-! daynr   I4  Day of year (Jan 1st = 1)                      d      I  
-! lat     R8  Latitude of the site                       degrees    I  
-! dayl    R8  Astronomical daylength (base = 0 degrees)      h      O  
-! daylp   R8  Photoperiodic daylength (base = -4 degrees)    h      O  
-! sinld   R8  Intermediate variable for other subroutine     -      O  
-! cosld   R8  Intermediate variable for other subroutine     -      O  
-! dsinb   R8  Daily total of sine of solar height            s      O  
-! dsinbe  R8  Daily integral of sine of solar height         s      O  
-!             corrected for lower transmission at low                  
-!             elevation                                                
-! sc      R8  Solar constant at day=daynr                   W/m2     O  
-! dso     R8  Daily extraterrestrial radiation            J/m2/d    O  
-!                                                                      
-! Fatal error checks (on input): lat > 90, lat < -90
-! Warnings          : lat above polar circle, lat within polar circle  
-! Subprograms called: Warning
-! File usage        : none
-!----------------------------------------------------------------------
-      implicit none
- 
-!     formal parameters
-      integer logf,swscre,daynr
-      real*8  lat,dayl,daylp,sinld,cosld,dsinb,dsinbe_sam,dso
-
-!     local parameters
-      real*8  angle,aob,dec,pi,rad,zza,zzcos,zzsin,sc,help1
-      character messag*200
-
-      data    pi /3.1415926d0/,angle /-4.0d0/
-! ----------------------------------------------------------------------
-! --- declination of the sun as a function of daynr
-!     (see ref.manual: Radiation term: 23.45*rad=0.409 en (90-10)*rad=1.39)
-      rad = pi/180.d0
-      dec = -asin(sin(23.45d0*rad)*cos(2.d0*pi*dble(daynr+10)/365.0d0))
-! --- some intermediate variables
-      sinld = sin(rad*lat)*sin(dec)
-      cosld = cos(rad*lat)*cos(dec)
-      aob = sinld/cosld
-! --- calculation of daylenght and photoperiodic daylength
-!     solution for polar circle altutude adopted from 
-!     Daniel van Kraalingen (routine Sastro, dd 12-june-1996,version 1.1)
-      if (aob.lt.-1.0d0) then
-        messag = 'Warning: latitude above polar circle, daylength= 0hrs'
-        call warn ('Astro',messag,logf,swscre)
-        dayl = 0.0d0
-        zzcos =  0.0d0
-        zzsin =  1.0d0
-      else if (aob.gt.1.0d0) then
-        messag = 'Warning: latitude within polar circle,daylength=24hrs'
-        call warn ('Astro',messag,logf,swscre)
-        dayl = 24.0d0
-        zzcos =  0.0d0
-        zzsin = -1.0d0
-      else
-        dayl  = 12.0d0*(1.0d0+2.0d0*asin(aob)/pi)
-        help1 = (-sin(angle*rad)+sinld)/cosld
-        if (help1.gt.1.0d0) then
-          daylp = 24.0d0
-        else
-          daylp = 12.0d0*(1.0d0+2.0d0*asin(help1)/pi)
-        endif
-!        write(logf,*) 'help1=',help1,'daylp=',daylp
-        zza   = pi*(12.0d0+dayl)/24.0d0
-        zzcos = cos (zza)
-        zzsin = sin (zza)
-      endif
-
-!     Daily integral of sine of solar height (DSINB) with a
-!     correction for lower atmospheric transmission at lower solar
-!     elevations (DSINBE)
-      dsinb  = 2.0d0*3600.0d0*(dayl*0.50d0*sinld-12.0d0*cosld*zzcos/pi)
-      dsinbe_sam = 2.0d0*3600.0d0*(dayl*(0.50d0*sinld+0.20d0*sinld**2.0d0+ &
-     &      0.10d0*cosld**2.0d0)-(12.0d0*cosld*zzcos+ &
-     &      9.6d0*sinld*cosld*zzcos+2.4d0*cosld**2.0d0*zzcos*zzsin)/pi)
-
-!     Solar constant and daily extraterrestrial radiation
-      sc = 1370.0d0*(1.0d0+0.033d0*cos (2.0d0*pi*daynr/365.d0))
-      dso  = sc*dsinb
-
-      return
-      end
-      
-      
-! ----------------------------------------------------------------------
-      subroutine radiat (daynr,hour,dayl,sinld,cosld,avrad,sinb, &
-      &                  pardir,pardif)
-! ----------------------------------------------------------------------
-! --- author: daniel van kraalingen, 1986
-! --- calculates the fluxes of diffuse and direct photosynthetically
-! --- active radiation from the total daily shortwave radiation actually
-! --- received (avrad) for a given day of the year and hour of the day.
-! --- the input variables dayl, sinld and cosld are calculated in astro.
-! --- for more information: see spitters et al. (1988).
-! ----------------------------------------------------------------------
-      implicit none
-
-      integer daynr
-
-      real*8  aob,atmtr,avrad,cosld,dayl,dsinb,dsinbe,dso,frdif,hour
-      real*8  par,pardif,pardir,pi,sc,sinb,sinld
-
-      data    pi /3.1415926d0/
-! ----------------------------------------------------------------------
-! --- calculations on solar elevation
-! --- sine of solar elevation sinb
-      aob = sinld/cosld
-      sinb = max (0.0d0,sinld+cosld*cos(2.0*pi*(hour+12.0d0)/24.0))
-! --- integral of sinb
-      dsinb = 3600.*(dayl*sinld+24.*cosld*sqrt(1.0d0-aob*aob)/pi)
-! --- integral of sinb, corrected for lower atmospheric transmission
-! --- at low solar elevations
-      dsinbe = 3600.*(dayl*(sinld+0.4*(sinld*sinld+cosld*cosld*0.5))+&
-     &         12.0*cosld*(2.0d0+3.0*0.4*sinld)*sqrt(1.0d0-aob*aob)/pi)
-
-! --- solar constant and daily extraterrestrial radiation
-      sc = 1370.*(1.0d0+0.033*cos(2.0*pi*daynr/365.))
-      dso = sc*dsinb
-
-! --- diffuse light fraction from atmospheric transmission
-      atmtr = avrad/dso
-      if (atmtr.gt.0.75d0) frdif = 0.23d0
-      if (atmtr.le.0.75d0.and.atmtr.gt.0.35d0) frdif = 1.33d0-1.46*atmtr
-      if (atmtr.le.0.35d0.and.atmtr.gt.0.07d0) &
-     & frdif = 1.0d0-2.3*(atmtr-0.07d0)**2
-      if (atmtr.le.0.07d0) frdif = 1.0d0
-
-! --- photosynthetic active radiation, diffuse and direct
-      par = 0.5*avrad*sinb*(1.0d0+0.4*sinb)/dsinbe
-      pardif = min (par,sinb*frdif*atmtr*0.5*sc)
-      pardir = par-pardif
-
-      return
-      end
-      
-      
-         subroutine TempHour_samuca(tmaxday,tminday,doy,lat,a,b,c,thour)
-        !Calculates the Hourly temperature based on Parton & Logan (1981)
-    
-        Implicit None
-
-        integer hour
-        integer doy
-        real tsunset                               !Temperature related variables !oC
-        real decsol                                ! astronomic variables
-        real ahn                                   ! astronomic variables
-        real timnight                              ! time related variables
-        real timday                                ! time related variables
-        real sunset
-        real sunrise
-        real photop
-        real nigthp
-        real bb
-        real be
-        real bbd_iday
-        real bbd_inight
-        real bbd_inight2
-        real bbe
-        real ddy
-        real tmaxday
-        real tminday
-        real lat
-        real d_2_r
-        real r_2_d
-
-        real a          !       = 1.607 Calibrated for Sao Paulo State   (original constants from Parton and Logan paper = 2.000)
-        real b          !       = 2.762 Calibrated for Sao Paulo State   (original constants from Parton and Logan paper = 2.200)
-        real c          !       = 1.179 Calibrated for Sao Paulo State   (original constants from Parton and Logan paper = -0.17)
-
-        real thour(24)
-
-        real :: pi      =  3.14159265
-
-        save
-
-        d_2_r = pi/180.
-        r_2_d = 180./pi
-
-        !calculating photoperiod
-        decsol  = 23.45 * sin(((360./365.)*(doy-80.)*d_2_r))
-
-        !ahn     = acos((-tan(d_2_r*lat)*tan(d_2_r*decsol)))
-        photop  = acos((-tan((lat)*d_2_r))*(tan((decsol)*d_2_r))) * &
-     & r_2_d * (2./15.)
-        nigthp  = 24 - photop
-        sunrise = 12 - photop/2
-        sunset  = 12 + photop/2
-
-        bb      = 12. - photop / 2. + c
-        be      = 12. + photop / 2.
-        ddy     = photop - c
-
-        !Calculating air temperature follow Parton & Logan (1981)
-        tsunset = (tmaxday - tminday) * sin(((pi*ddy)/(photop+2*a))) + &
-     &  tminday
-
-        !Initial Conditions
-        do hour = 1,24
-
-            bbd_iday    = hour - bb
-            bbe         = hour - be
-            bbd_inight2 = (24. + be) + hour
-
-            !Rescaling time
-            if(hour .gt. sunset) then
-                bbd_inight  = hour - sunset
-            else
-                bbd_inight = (24. + hour) - sunset
-            endif
-
-            !Day time temperature
-            if(hour .ge. bb .and. hour .le. sunset) then
-
-                thour(hour) = (tmaxday - tminday) * &
-     & sin(((pi * bbd_iday) / (photop + 2*a))) + tminday
-
-            else
-            !Night time temperature
-
-                thour(hour) = tminday + (tsunset - tminday) * &
-     & exp(-b * bbd_inight/(24. - photop))
-
-
-            endif
-        enddo
-		
-        return
-        end subroutine TempHour_samuca
+    end

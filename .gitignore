@@ -395,3 +395,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Build
+build/
+
+# Binaries
+*.mod
+
+# SWAP cases
+cases/
