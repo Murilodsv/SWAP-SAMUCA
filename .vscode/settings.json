@@ -1,3 +1,6 @@
 {
-    "cmake.useCMakePresets": "never"
+    // workspace settings 
+    "cmake.useCMakePresets": "never",        
+    "fortran.linter.includePaths": ["${userHome}/.local/bin","${workspaceFolder}/build/mod"],
+    "fortran.linter.modOutput": "${workspaceFolder}/build/mod"
 }
