@@ -5,6 +5,7 @@ This repository documents the coupling of the SAMUCA sugarcane model into the SW
 
 ### Scientific documentation and further information can be found in:
 
+- Coupling description and testing: https://doi.org/10.1016/j.agwat.2024.108938
 - SWAP webpage: https://www.swap.alterra.nl/
 - Documentation of latest SAMUCA version: https://doi.org/10.1016/j.compag.2020.105361
   
