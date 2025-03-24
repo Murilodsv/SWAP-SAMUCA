@@ -15,6 +15,11 @@
                          3 ! n_lf_it_form                 !  (I)  !
                          6 ! maxdgl                       !  (I)  !
                          0 ! schedule irrigation          !  (I)  !
+                         1 ! swdrought                    !  (I)  !
+                         1 ! swoxygen                     !  (I)  !
+                         1 ! cumdenstb                    !  (I)  !
+                         1 ! swinter                      !  (I)  !
+                         0 ! flco2                        !  (I)  !
                       41.3 ! amax                         !  (R)  !
                 0.06465016 ! eff                          !  (R)  !
                      282.9 ! phtmax                       !  (R)  !

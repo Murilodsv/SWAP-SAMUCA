@@ -591,6 +591,11 @@ subroutine Samuca(task)
     real        soma                                            ! Dynamic variable for cumdens
     integer     cumdenstb                                       ! Flag to use RDCTB to scale cumdens (cumdenstb=1) or SAMUCA's root length density (cumdenstb=0)
 
+    character(len=200) filnam
+    integer     uco2, ifnd, flco2_i, CO2year_idx
+    integer getun2
+    logical fl_newyear
+
 
     character (len = 6) pltype                              !  Planting type (Ratoon or PlCane)
     character (len = 6) cropstatus                          !  Dead or Alive
@@ -712,13 +717,13 @@ subroutine Samuca(task)
     !--------------------------!
 
     !--- Get parameters from Samuca.mng called in readswap.for L.287
-    writeactout         = .true.
-    writedetphoto       = .false.
-    writedcrop          = .false.
-    writehead           = .true.
-    writecumdens        = .true.
-    detailedsoil        = .true.
-    flprompt_msg        = .false.
+    writeactout         = .true.   ! write actual growth outputs
+    writedetphoto       = .false.  ! write detailed photosynthesis output
+    writedcrop          = .false.  ! write detailed crop outputs (at phytomer level)
+    writehead           = .true.   ! write output file headers
+    writecumdens        = .true.   ! write output of root cumulative density
+    detailedsoil        = .true.   ! write rld and soil states to detailed output
+    flprompt_msg        = .false.  ! print messages on screen
     
     !-----------------!    
     !--- HARDWIRED ---!
@@ -756,7 +761,7 @@ subroutine Samuca(task)
     !-------------------------------!
 
     !--- size of parameters arrays
-    n_inte_host = 7
+    n_inte_host = 12
     n_real_host = 118
 
     !--- read from 'Samuca.par'
@@ -770,6 +775,11 @@ subroutine Samuca(task)
     n_lf_it_form                  = inte_host(  5) ! (I)
     maxdgl                        = inte_host(  6) ! (I)
     schedule                      = inte_host(  7) ! (I) ! IRRIGATION SCHEDULER OF SWAP: =1 [ON] =0 [OFF] [IRRIGATION SETUP WILL BE READ FROM Sugarcane.crp]
+    swdrought                     = inte_host(  8) ! (I)
+    swoxygen                      = inte_host(  9) ! (I)
+    cumdenstb                     = inte_host( 10) ! (I)
+    swinter                       = inte_host( 11) ! (I)
+    flco2_i                       = inte_host( 12) ! (I)
     amax                          = real_host(  1) ! (R)
     eff                           = real_host(  2) ! (R)
     phtmax                        = real_host(  3) ! (R)
@@ -888,7 +898,26 @@ subroutine Samuca(task)
     ADCRL                         = real_host(116) ! (R)      0.1
     ALPHACRIT                     = real_host(117) ! (R)    0.7
     plantdepth                    = real_host(118) ! (R) IN SAMUCA, this is a management parameter, but we decided to keep it here to not change SWAP.swp or to create new input file only for 1 variable...
+
     
+    if(flco2_i .eq. 1)then
+        flco2 = .true.
+    else
+        flco2 = .false.
+    end if
+    
+    !---  Read CO2-air data from Atmospheric.co2 file (same as WOFOST)
+    if(flco2) then
+        filnam = trim(pathcrop)//'Atmospheric.co2'
+        uco2 = getun2 (30,90,2)
+        call rdinit(uco2,logf,filnam)
+        CALL rdainr ('CO2year', 1000, 3000, CO2year, mayrs, ifnd)
+        CALL rdfdor ('CO2ppm',  10.0d0, 1000.0d0, CO2ppm, mayrs, ifnd)
+        close(uco2)
+
+        call get_co2_samuca(CO2ppm, co2year, mayrs, iyear, co2)
+    endif
+
     !--- read root profile if necessary
     !--- initialise and start reading
     if (cumdenstb .eq. 1) then
@@ -1305,6 +1334,10 @@ subroutine Samuca(task)
     !-------------------------------------!
 
     !--- Link with SWAP variables
+    if ((year .ne. iyear) .and. flCO2) then
+        ! update co2 only at new year
+        call get_co2_samuca(CO2ppm, co2year, mayrs, iyear, co2)
+    endif 
     srad    =   rad * 1.e-6
     tmax    =   tmx
     tmin    =   tmn

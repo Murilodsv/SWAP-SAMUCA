@@ -305,6 +305,7 @@ set(
         "src_Swap4/ReadSamucaRDCTB.f90"
 		"src_Swap4/root_profile.f90"
 		"src_Swap4/SAMUCA.f90"
+		"src_Swap4/get_co2_samuca.f90"
 		"src_Swap4/TempHour_samuca.f90"
 		"src_Swap4/radiat.f90"
 		"src_Swap4/astro_sam.f90"

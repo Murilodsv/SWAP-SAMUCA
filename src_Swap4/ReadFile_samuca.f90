@@ -321,7 +321,12 @@ subroutine ReadFile_samuca(task,           &
         inte_host(4)  , ignore, 	& ! (I)
         inte_host(5)  , ignore, 	& ! (I)
         inte_host(6)  , ignore, 	& ! (I)
-        inte_host(7)    
+        inte_host(7)  , ignore, 	& ! (I)
+        inte_host(8)  , ignore, 	& ! (I)
+        inte_host(9)  , ignore, 	& ! (I)
+        inte_host(10)  , ignore, 	& ! (I)
+        inte_host(11)  , ignore, 	& ! (I)
+        inte_host(12)    
         
     write(fmt_var,'("(", I0, "(f26.5,a30,/)    ,f26.5,a30)")') nf-1
     read (crop_iunit, fmt_var)                &
